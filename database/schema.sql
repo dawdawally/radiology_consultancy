@@ -1,10 +1,6 @@
--- MedRad Technical Consultancy — Database Schema
--- Run: mysql -u root -p < database/schema.sql
-
-CREATE DATABASE IF NOT EXISTS medrad_consultancy
-    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-USE medrad_consultancy;
+-- Database schema for Radiation Equipment Consultancy
+-- Database name comes from includes/config (config.local.php or config.production.php)
+-- Run: php database/install.php
 
 SET FOREIGN_KEY_CHECKS = 0;
 

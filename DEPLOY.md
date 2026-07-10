@@ -99,11 +99,7 @@ Run **once** via SSH (set production mode for CLI):
 APP_ENV=production php database/install.php
 ```
 
-Expected output:
-```
-Installation complete.
-Admin login: admin / Admin@123456
-```
+On Hostinger shared hosting, the database must already exist in hPanel. The installer uses the database name from `config.production.php` and does not create `medrad_consultancy`.
 
 Then **delete the installer** (recommended):
 

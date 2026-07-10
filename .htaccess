@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Adjust RewriteBase to match your deployment path (e.g. /biomedical_consultancy/ or /)
+RewriteBase /biomedical_consultancy/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]
+
+# Security
+<FilesMatch "\.(sql|md|example\.php)$">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes

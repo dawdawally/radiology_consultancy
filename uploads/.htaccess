@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+// Protect uploads directory — only serve static files, deny PHP execution
+<FilesMatch "\.php$">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes

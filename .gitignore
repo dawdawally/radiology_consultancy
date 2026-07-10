@@ -1,0 +1,26 @@
+# Local configuration (contains database credentials and environment-specific URLs)
+includes/config/config.php
+.env
+.env.*
+
+# User uploads (runtime content)
+uploads/*
+!uploads/.gitkeep
+!uploads/.htaccess
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs and temp files
+*.log
+*.tmp
+*.cache
+
+# Duplicate logo at project root (canonical copy is in assets/images/)
+/rmc_logo.png

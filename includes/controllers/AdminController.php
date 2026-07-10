@@ -65,7 +65,7 @@ class AdminController
         $editKey = $_GET['edit'] ?? ($sections[0]['section_key'] ?? null);
         $editSection = $editKey ? $model->getByKey($editKey) : null;
 
-        renderAdmin('homepage/index', [
+        renderAdmin('homepage', [
             'pageHeading' => 'Homepage Manager',
             'sections' => $sections,
             'editSection' => $editSection,
@@ -96,7 +96,7 @@ class AdminController
             $editSection = $all[$editKey] ?? null;
         }
 
-        renderAdmin('about/index', [
+        renderAdmin('about', [
             'pageHeading' => 'About Manager',
             'sections' => $sections,
             'editSection' => $editSection,
@@ -131,7 +131,7 @@ class AdminController
         }
 
         if ($action === 'create') {
-            renderAdmin('services/form', ['pageHeading' => 'Add Service', 'service' => null]);
+            renderAdmin('services_form', ['pageHeading' => 'Add Service', 'service' => null]);
             return;
         }
 
@@ -140,11 +140,11 @@ class AdminController
             if (!$service) {
                 redirect(adminUrl('page=services'));
             }
-            renderAdmin('services/form', ['pageHeading' => 'Edit Service', 'service' => $service]);
+            renderAdmin('services_form', ['pageHeading' => 'Edit Service', 'service' => $service]);
             return;
         }
 
-        renderAdmin('services/index', [
+        renderAdmin('services', [
             'pageHeading' => 'Service Manager',
             'services' => $model->findAll('sort_order ASC'),
         ]);
@@ -214,16 +214,16 @@ class AdminController
         }
 
         if ($action === 'create') {
-            renderAdmin('equipment/form', ['pageHeading' => 'Add Equipment', 'item' => null]);
+            renderAdmin('equipment_form', ['pageHeading' => 'Add Equipment', 'item' => null]);
             return;
         }
 
         if ($action === 'edit' && isset($_GET['id'])) {
-            renderAdmin('equipment/form', ['pageHeading' => 'Edit Equipment', 'item' => $model->findById((int) $_GET['id'])]);
+            renderAdmin('equipment_form', ['pageHeading' => 'Edit Equipment', 'item' => $model->findById((int) $_GET['id'])]);
             return;
         }
 
-        renderAdmin('equipment/index', [
+        renderAdmin('equipment', [
             'pageHeading' => 'Equipment Manager',
             'items' => $model->findAll('category ASC, sort_order ASC'),
         ]);
@@ -264,12 +264,12 @@ class AdminController
         }
 
         if ($action === 'create') {
-            renderAdmin('blog/form', ['pageHeading' => 'Add Blog Post', 'post' => null, 'categories' => $model->getCategories()]);
+            renderAdmin('blog_form', ['pageHeading' => 'Add Blog Post', 'post' => null, 'categories' => $model->getCategories()]);
             return;
         }
 
         if ($action === 'edit' && isset($_GET['id'])) {
-            renderAdmin('blog/form', [
+            renderAdmin('blog_form', [
                 'pageHeading' => 'Edit Blog Post',
                 'post' => $model->findById((int) $_GET['id']),
                 'categories' => $model->getCategories(),
@@ -282,7 +282,7 @@ class AdminController
             'SELECT p.*, c.name AS category_name FROM blog_posts p LEFT JOIN blog_categories c ON c.id = p.category_id ORDER BY p.created_at DESC'
         )->fetchAll();
 
-        renderAdmin('blog/index', ['pageHeading' => 'Blog Manager', 'posts' => $posts]);
+        renderAdmin('blog', ['pageHeading' => 'Blog Manager', 'posts' => $posts]);
     }
 
     private function testimonials(string $action): void
@@ -319,16 +319,16 @@ class AdminController
         }
 
         if ($action === 'create') {
-            renderAdmin('testimonials/form', ['pageHeading' => 'Add Testimonial', 'item' => null]);
+            renderAdmin('testimonials_form', ['pageHeading' => 'Add Testimonial', 'item' => null]);
             return;
         }
 
         if ($action === 'edit' && isset($_GET['id'])) {
-            renderAdmin('testimonials/form', ['pageHeading' => 'Edit Testimonial', 'item' => $model->findById((int) $_GET['id'])]);
+            renderAdmin('testimonials_form', ['pageHeading' => 'Edit Testimonial', 'item' => $model->findById((int) $_GET['id'])]);
             return;
         }
 
-        renderAdmin('testimonials/index', [
+        renderAdmin('testimonials', [
             'pageHeading' => 'Testimonials Manager',
             'items' => $model->findAll('sort_order ASC'),
         ]);
@@ -349,7 +349,7 @@ class AdminController
             $model->markRead($viewId);
         }
 
-        renderAdmin('messages/index', [
+        renderAdmin('messages', [
             'pageHeading' => 'Contact Messages',
             'messages' => $model->getRecent(50),
             'viewMessage' => $viewMessage,
@@ -382,7 +382,7 @@ class AdminController
             }
         }
 
-        renderAdmin('seo/index', [
+        renderAdmin('seo', [
             'pageHeading' => 'SEO Settings',
             'pages' => $pages,
             'editPage' => $editPage,
@@ -407,7 +407,7 @@ class AdminController
             redirect(adminUrl('page=settings'));
         }
 
-        renderAdmin('settings/index', [
+        renderAdmin('settings', [
             'pageHeading' => 'Website Settings',
             'settings' => $model->getAll(),
         ]);
@@ -444,7 +444,7 @@ class AdminController
             redirect(adminUrl('page=media'));
         }
 
-        renderAdmin('media/index', [
+        renderAdmin('media', [
             'pageHeading' => 'Media Library',
             'items' => $model->findAll('uploaded_at DESC'),
         ]);
@@ -463,7 +463,7 @@ class AdminController
             redirect(adminUrl('page=profile'));
         }
 
-        renderAdmin('profile/index', ['pageHeading' => 'Admin Profile', 'user' => currentUser()]);
+        renderAdmin('profile', ['pageHeading' => 'Admin Profile', 'user' => currentUser()]);
     }
 
     private function requireCsrf(): void

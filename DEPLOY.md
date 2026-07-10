@@ -56,6 +56,17 @@ The `admin/` folder on the server must contain:
 
 If `dashboard.php` is missing, `/admin/index.php` shows the public site’s “Page Not Found” (the request is routed through the main `index.php`). Upload `dashboard.php` from your project to `public_html/admin/dashboard.php`.
 
+### Admin view templates — upload the full folder
+
+Admin navigation loads templates from `includes/views/admin/` (flat `.php` files such as `profile.php`, `equipment.php`, `services.php`). If these are missing on the server, you will see errors like **Admin view not found: profile**.
+
+Upload the entire `includes/views/admin/` folder from the repo, including:
+
+- `dashboard.php`, `homepage.php`, `about.php`, `services.php`, `equipment.php`, `blog.php`, etc.
+- `partials/sidebar.php`, `partials/topbar.php`, `layout.php`
+
+After a Git pull on Hostinger, confirm these files exist under `public_html/includes/views/admin/`.
+
 ### Via Git (SSH)
 
 ```bash

@@ -181,6 +181,10 @@ function render(string $view, array $data = [], ?string $layout = 'main'): void
 
 function renderAdmin(string $view, array $data = []): void
 {
+    if (str_contains($view, '/') || str_contains($view, '\\') || str_contains($view, '..')) {
+        die('Invalid admin view.');
+    }
+
     extract($data);
     $viewFile = INCLUDES_PATH . '/views/admin/' . $view . '.php';
     if (!file_exists($viewFile)) {

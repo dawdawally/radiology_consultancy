@@ -37,6 +37,16 @@ function url(string $path = ''): string
     return $path === '' ? $base . '/' : $base . '/' . $path;
 }
 
+/** Admin dashboard URL — always targets index.php (avoids 403 on /admin/ directory). */
+function adminUrl(string $query = ''): string
+{
+    $path = 'admin/dashboard.php';
+    if ($query === '') {
+        return url($path);
+    }
+    return url($path . '?' . ltrim($query, '?'));
+}
+
 function linkUrl(?string $path): string
 {
     if (!$path) {

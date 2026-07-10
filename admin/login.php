@@ -12,13 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     if (attemptLogin($username, $password)) {
-        redirect(url('admin/'));
+        redirect(adminUrl());
     }
     setFlash('danger', 'Invalid username or password.');
 }
 
 if (isLoggedIn()) {
-    redirect(url('admin/'));
+    redirect(adminUrl());
 }
 
 ?>

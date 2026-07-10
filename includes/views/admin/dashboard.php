@@ -40,7 +40,7 @@
                 <td><?= e($msg['email']) ?></td>
                 <td><?= e(truncate($msg['subject'] ?? $msg['message'], 40)) ?></td>
                 <td><?= formatDate($msg['created_at'], 'd M Y H:i') ?></td>
-                <td><a href="<?= url('admin/?page=messages&view=' . $msg['id']) ?>" class="btn btn-sm btn-outline-primary">View</a></td>
+                <td><a href="<?= adminUrl('page=messages&view=' . $msg['id']) ?>" class="btn btn-sm btn-outline-primary">View</a></td>
             </tr>
             <?php endforeach; ?>
             </tbody>

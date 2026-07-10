@@ -53,9 +53,6 @@ function attemptLogin(string $username, string $password): bool
 
 function logout(): void
 {
-    if (isLoggedIn()) {
-        logActivity('logout', 'admin_users', currentUserId(), 'Admin logged out');
-    }
     $_SESSION = [];
     if (ini_get('session.use_cookies')) {
         $params = session_get_cookie_params();

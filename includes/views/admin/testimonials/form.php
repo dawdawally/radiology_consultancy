@@ -1,6 +1,6 @@
 <?php $isEdit = !empty($item); ?>
 <div class="admin-card">
-    <form method="POST" action="<?= url('admin/?page=testimonials&action=' . ($isEdit ? 'edit' : 'create')) ?>">
+    <form method="POST" action="<?= adminUrl('page=testimonials&action=' . ($isEdit ? 'edit' : 'create')) ?>">
         <?= csrfField() ?>
         <?php if ($isEdit): ?><input type="hidden" name="id" value="<?= (int) $item['id'] ?>"><?php endif; ?>
         <div class="row g-3">
@@ -15,7 +15,7 @@
         </div>
         <div class="mt-4">
             <button type="submit" class="btn btn-primary">Save</button>
-            <a href="<?= url('admin/?page=testimonials') ?>" class="btn btn-outline-secondary ms-2">Cancel</a>
+            <a href="<?= adminUrl('page=testimonials') ?>" class="btn btn-outline-secondary ms-2">Cancel</a>
         </div>
     </form>
 </div>

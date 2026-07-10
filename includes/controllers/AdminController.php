@@ -58,7 +58,7 @@ class AdminController
             ]);
             logActivity('update', 'homepage', null, "Updated section: {$key}");
             setFlash('success', 'Homepage section updated.');
-            redirect(url('admin/?page=homepage&edit=' . urlencode($key)));
+            redirect(adminUrl('page=homepage&edit=' . urlencode($key)));
         }
 
         $sections = $model->findAll('sort_order ASC');
@@ -85,7 +85,7 @@ class AdminController
             ]);
             logActivity('update', 'about', null, "Updated section: {$key}");
             setFlash('success', 'About section updated.');
-            redirect(url('admin/?page=about&edit=' . urlencode($key)));
+            redirect(adminUrl('page=about&edit=' . urlencode($key)));
         }
 
         $sections = $model->findAll('sort_order ASC');
@@ -112,7 +112,7 @@ class AdminController
             $model->delete((int) $_GET['id']);
             logActivity('delete', 'services', (int) $_GET['id'], 'Deleted service');
             setFlash('success', 'Service deleted.');
-            redirect(url('admin/?page=services'));
+            redirect(adminUrl('page=services'));
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -127,7 +127,7 @@ class AdminController
                 logActivity('update', 'services', (int) $_POST['id'], 'Updated service');
                 setFlash('success', 'Service updated.');
             }
-            redirect(url('admin/?page=services'));
+            redirect(adminUrl('page=services'));
         }
 
         if ($action === 'create') {
@@ -138,7 +138,7 @@ class AdminController
         if ($action === 'edit' && isset($_GET['id'])) {
             $service = $model->findById((int) $_GET['id']);
             if (!$service) {
-                redirect(url('admin/?page=services'));
+                redirect(adminUrl('page=services'));
             }
             renderAdmin('services/form', ['pageHeading' => 'Edit Service', 'service' => $service]);
             return;
@@ -190,7 +190,7 @@ class AdminController
             $this->requireCsrfGet();
             $model->delete((int) $_GET['id']);
             setFlash('success', 'Equipment item deleted.');
-            redirect(url('admin/?page=equipment'));
+            redirect(adminUrl('page=equipment'));
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -210,7 +210,7 @@ class AdminController
                 $model->update((int) $_POST['id'], $data);
                 setFlash('success', 'Equipment item updated.');
             }
-            redirect(url('admin/?page=equipment'));
+            redirect(adminUrl('page=equipment'));
         }
 
         if ($action === 'create') {
@@ -237,7 +237,7 @@ class AdminController
             $this->requireCsrfGet();
             $model->delete((int) $_GET['id']);
             setFlash('success', 'Blog post deleted.');
-            redirect(url('admin/?page=blog'));
+            redirect(adminUrl('page=blog'));
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -260,7 +260,7 @@ class AdminController
                 $model->updatePost((int) $_POST['id'], $data);
                 setFlash('success', 'Blog post updated.');
             }
-            redirect(url('admin/?page=blog'));
+            redirect(adminUrl('page=blog'));
         }
 
         if ($action === 'create') {
@@ -293,7 +293,7 @@ class AdminController
             $this->requireCsrfGet();
             $model->delete((int) $_GET['id']);
             setFlash('success', 'Testimonial deleted.');
-            redirect(url('admin/?page=testimonials'));
+            redirect(adminUrl('page=testimonials'));
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -315,7 +315,7 @@ class AdminController
                 $model->update((int) $_POST['id'], $data);
                 setFlash('success', 'Testimonial updated.');
             }
-            redirect(url('admin/?page=testimonials'));
+            redirect(adminUrl('page=testimonials'));
         }
 
         if ($action === 'create') {
@@ -340,7 +340,7 @@ class AdminController
 
         if ($action === 'read' && isset($_GET['id'])) {
             $model->markRead((int) $_GET['id']);
-            redirect(url('admin/?page=messages&view=' . (int) $_GET['id']));
+            redirect(adminUrl('page=messages&view=' . (int) $_GET['id']));
         }
 
         $viewId = isset($_GET['view']) ? (int) $_GET['view'] : null;
@@ -369,7 +369,7 @@ class AdminController
                 'meta_keywords' => $_POST['meta_keywords'] ?? '',
             ]);
             setFlash('success', 'SEO settings saved.');
-            redirect(url('admin/?page=seo&edit=' . urlencode($key)));
+            redirect(adminUrl('page=seo&edit=' . urlencode($key)));
         }
 
         $pages = $model->getAll();
@@ -404,7 +404,7 @@ class AdminController
             }
             logActivity('update', 'website_settings', null, 'Updated website settings');
             setFlash('success', 'Website settings saved.');
-            redirect(url('admin/?page=settings'));
+            redirect(adminUrl('page=settings'));
         }
 
         renderAdmin('settings/index', [
@@ -427,7 +427,7 @@ class AdminController
                     setFlash('danger', 'Upload failed. Check file type (jpg, png, webp) and size (max 5MB).');
                 }
             }
-            redirect(url('admin/?page=media'));
+            redirect(adminUrl('page=media'));
         }
 
         if ($action === 'delete' && isset($_GET['id'])) {
@@ -441,7 +441,7 @@ class AdminController
                 $model->delete((int) $_GET['id']);
             }
             setFlash('success', 'Media deleted.');
-            redirect(url('admin/?page=media'));
+            redirect(adminUrl('page=media'));
         }
 
         renderAdmin('media/index', [
@@ -460,7 +460,7 @@ class AdminController
                 $_POST['new_password'] ?? ''
             );
             setFlash($ok ? 'success' : 'danger', $ok ? 'Password updated.' : 'Current password is incorrect.');
-            redirect(url('admin/?page=profile'));
+            redirect(adminUrl('page=profile'));
         }
 
         renderAdmin('profile/index', ['pageHeading' => 'Admin Profile', 'user' => currentUser()]);
@@ -470,7 +470,7 @@ class AdminController
     {
         if (!verifyCsrf($_POST['csrf_token'] ?? '')) {
             setFlash('danger', 'Invalid security token.');
-            redirect(url('admin/'));
+            redirect(adminUrl());
         }
     }
 
@@ -478,7 +478,7 @@ class AdminController
     {
         if (!verifyCsrf($_GET['csrf_token'] ?? '')) {
             setFlash('danger', 'Invalid security token.');
-            redirect(url('admin/'));
+            redirect(adminUrl());
         }
     }
 }

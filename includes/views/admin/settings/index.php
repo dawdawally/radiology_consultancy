@@ -1,5 +1,5 @@
 <div class="admin-card">
-    <form method="POST" action="<?= url('admin/?page=settings') ?>">
+    <form method="POST" action="<?= adminUrl('page=settings') ?>">
         <?= csrfField() ?>
         <ul class="nav nav-tabs mb-4" role="tablist">
             <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#general" type="button">General</button></li>

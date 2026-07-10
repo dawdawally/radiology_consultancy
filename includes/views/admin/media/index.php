@@ -2,7 +2,7 @@
     <div class="col-lg-6">
         <div class="admin-card">
             <h5 class="mb-3">Upload Image</h5>
-            <form method="POST" action="<?= url('admin/?page=media&action=upload') ?>" enctype="multipart/form-data">
+            <form method="POST" action="<?= adminUrl('page=media&action=upload') ?>" enctype="multipart/form-data">
                 <?= csrfField() ?>
                 <div class="mb-3"><input type="file" name="file" class="form-control" accept="image/jpeg,image/png,image/webp" required></div>
                 <p class="text-muted small">Allowed: JPG, PNG, WebP. Max 5MB.</p>
@@ -22,7 +22,7 @@
             <div class="border rounded p-2 text-center">
                 <img src="<?= uploadUrl($item['filename']) ?>" alt="<?= e($item['alt_text'] ?? '') ?>" class="img-fluid rounded mb-2" style="max-height:100px;object-fit:cover;">
                 <small class="d-block text-truncate"><?= e($item['original_name']) ?></small>
-                <a href="<?= url('admin/?page=media&action=delete&id=' . $item['id'] . '&csrf_token=' . csrfToken()) ?>" class="btn btn-sm btn-outline-danger mt-1" onclick="return confirm('Delete?')">Delete</a>
+                <a href="<?= adminUrl('page=media&action=delete&id=' . $item['id'] . '&csrf_token=' . csrfToken()) ?>" class="btn btn-sm btn-outline-danger mt-1" onclick="return confirm('Delete?')">Delete</a>
             </div>
         </div>
         <?php endforeach; ?>

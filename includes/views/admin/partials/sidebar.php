@@ -21,7 +21,7 @@ $navItems = [
     </div>
     <nav class="sidebar-nav">
         <?php foreach ($navItems as $item): ?>
-        <a href="<?= url('admin/?page=' . $item['page']) ?>" class="sidebar-link <?= $currentPage === $item['page'] ? 'active' : '' ?>">
+        <a href="<?= adminUrl('page=' . $item['page']) ?>" class="sidebar-link <?= $currentPage === $item['page'] ? 'active' : '' ?>">
             <i class="fa-solid <?= e($item['icon']) ?>"></i>
             <span><?= e($item['label']) ?></span>
         </a>

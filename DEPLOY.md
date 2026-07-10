@@ -33,6 +33,29 @@
 
 ## Step 3 — Upload code
 
+### Verify these static files exist on the server
+
+After upload, confirm these URLs open in your browser (not 404):
+
+- `https://radiationequipmentconsultancy.com/assets/images/rmc_logo.png` ← **logo & favicon**
+- `https://radiationequipmentconsultancy.com/assets/css/style.css`
+- `https://radiationequipmentconsultancy.com/admin/dashboard.php` ← **admin dashboard** (required; login alone is not enough)
+
+The logo must be at `public_html/assets/images/rmc_logo.png`.  
+The copy at the project root (`rmc_logo.png`) is **not** used by the website.
+
+### Admin folder — all three PHP files are required
+
+The `admin/` folder on the server must contain:
+
+| File | Role |
+|------|------|
+| `admin/login.php` | Sign-in page |
+| `admin/dashboard.php` | **Main admin app** (homepage editor, services, etc.) |
+| `admin/logout.php` | Sign out |
+
+If `dashboard.php` is missing, `/admin/index.php` shows the public site’s “Page Not Found” (the request is routed through the main `index.php`). Upload `dashboard.php` from your project to `public_html/admin/dashboard.php`.
+
 ### Via Git (SSH)
 
 ```bash
@@ -141,7 +164,7 @@ Test the contact form at `/contact`. If `mail()` does not deliver, configure SMT
 | https://radiationequipmentconsultancy.com/ | Homepage loads |
 | https://radiationequipmentconsultancy.com/services | Services list |
 | https://radiationequipmentconsultancy.com/contact | Contact form works |
-| https://radiationequipmentconsultancy.com/admin/ | Admin redirects to login |
+| https://radiationequipmentconsultancy.com/admin/dashboard.php | Admin dashboard (login required) |
 
 ---
 

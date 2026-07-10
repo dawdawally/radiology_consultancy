@@ -7,7 +7,7 @@
             <?php else: ?>
             <div class="list-group list-group-flush">
                 <?php foreach ($messages as $msg): ?>
-                <a href="<?= url('admin/?page=messages&view=' . $msg['id']) ?>" class="list-group-item list-group-item-action <?= ($viewMessage['id'] ?? 0) == $msg['id'] ? 'active' : '' ?>">
+                <a href="<?= adminUrl('page=messages&view=' . $msg['id']) ?>" class="list-group-item list-group-item-action <?= ($viewMessage['id'] ?? 0) == $msg['id'] ? 'active' : '' ?>">
                     <div class="d-flex justify-content-between">
                         <strong><?= e($msg['name']) ?></strong>
                         <?php if (!$msg['is_read']): ?><span class="badge bg-danger">New</span><?php endif; ?>

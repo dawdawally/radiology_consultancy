@@ -10,7 +10,7 @@ foreach ($approach as $i => $step) {
 $deliverableLines = implode("\n", array_map(fn($d) => is_string($d) ? $d : ($d['title'] ?? ''), $deliverables));
 ?>
 <div class="admin-card">
-    <form method="POST" action="<?= url('admin/?page=services&action=' . ($isEdit ? 'edit' : 'create')) ?>">
+    <form method="POST" action="<?= adminUrl('page=services&action=' . ($isEdit ? 'edit' : 'create')) ?>">
         <?= csrfField() ?>
         <?php if ($isEdit): ?><input type="hidden" name="id" value="<?= (int) $service['id'] ?>"><?php endif; ?>
 
@@ -31,7 +31,7 @@ $deliverableLines = implode("\n", array_map(fn($d) => is_string($d) ? $d : ($d['
         </div>
         <div class="mt-4">
             <button type="submit" class="btn btn-primary">Save Service</button>
-            <a href="<?= url('admin/?page=services') ?>" class="btn btn-outline-secondary ms-2">Cancel</a>
+            <a href="<?= adminUrl('page=services') ?>" class="btn btn-outline-secondary ms-2">Cancel</a>
         </div>
     </form>
 </div>

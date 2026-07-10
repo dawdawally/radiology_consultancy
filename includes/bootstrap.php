@@ -10,7 +10,7 @@ define('INCLUDES_PATH', ROOT_PATH . '/includes');
 
 $configFile = INCLUDES_PATH . '/config/config.php';
 if (!file_exists($configFile)) {
-    die('Configuration missing. Copy includes/config/config.example.php to config.php');
+    die('Configuration missing. See includes/config/config.example.php');
 }
 
 $GLOBALS['app_config'] = require $configFile;

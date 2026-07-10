@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * MedRad Technical Consultancy — database seed data.
+ * Radiation Equipment Consultancy — database seed data.
  * Run via install.php or: SeedData::run($pdo);
  */
 class SeedData
@@ -57,20 +57,20 @@ class SeedData
                 email = VALUES(email),
                 full_name = VALUES(full_name)'
         );
-        $stmt->execute(['admin', 'admin@medradconsultancy.com', 'Site Administrator', 'TEMP']);
+        $stmt->execute(['admin', 'admin@radiationequipmentconsultancy.com', 'Site Administrator', 'TEMP']);
     }
 
     private static function seedWebsiteSettings(PDO $pdo): void
     {
         $settings = [
-            'site_name' => 'MedRad Technical Consultancy',
+            'site_name' => 'Radiation Equipment Consultancy',
             'tagline' => 'Independent radiation equipment expertise for hospitals and cancer centres worldwide',
             'phone' => '+44 (0)20 7946 0958',
-            'email' => 'info@medradconsultancy.com',
-            'address' => 'MedRad Technical Consultancy, 14 Harley Street, London W1G 9PQ, United Kingdom',
-            'linkedin' => 'https://www.linkedin.com/company/medrad-technical-consultancy',
+            'email' => 'info@radiationequipmentconsultancy.com',
+            'address' => 'Radiation Equipment Consultancy, 14 Harley Street, London W1G 9PQ, United Kingdom',
+            'linkedin' => 'https://www.linkedin.com/company/radiation-equipment-consultancy',
             'response_time' => 'We respond to all enquiries within 24 hours on business days.',
-            'footer_text' => 'MedRad Technical Consultancy provides independent technical advisory services for radiation equipment across radiotherapy, diagnostic radiology, and nuclear medicine. We do not sell equipment and have no manufacturer affiliations.',
+            'footer_text' => 'Radiation Equipment Consultancy provides independent technical advisory services for radiation equipment across radiotherapy, diagnostic radiology, and nuclear medicine. We do not sell equipment and have no manufacturer affiliations.',
             'contact_intro' => '<p>Whether you are planning a new installation, commissioning a linac, or navigating regulatory compliance, we are here to help. Tell us about your project and we will respond within one business day with practical next steps.</p>',
             'privacy_content' => self::privacyContent(),
             'terms_content' => self::termsContent(),
@@ -90,7 +90,7 @@ class SeedData
     private static function privacyContent(): string
     {
         return <<<'HTML'
-<p>MedRad Technical Consultancy ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, store, and safeguard personal information when you visit our website or contact us for consultancy services.</p>
+<p>Radiation Equipment Consultancy ("we", "us", or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, store, and safeguard personal information when you visit our website or contact us for consultancy services.</p>
 <p><strong>Information We Collect</strong></p>
 <p>We may collect personal information that you voluntarily provide through our contact form, email correspondence, or telephone enquiries. This may include your name, job title, organisation, email address, telephone number, and details about your radiation equipment project or enquiry. We also collect limited technical data automatically when you browse our website, such as IP address, browser type, pages visited, and referral source, through standard server logs and analytics tools.</p>
 <p><strong>How We Use Your Information</strong></p>
@@ -98,7 +98,7 @@ class SeedData
 <p><strong>Data Retention and Security</strong></p>
 <p>We retain contact form submissions and project correspondence only for as long as necessary to fulfil the purpose for which it was collected, or as required by applicable law and professional record-keeping obligations. We implement appropriate technical and organisational measures to protect personal data against unauthorised access, alteration, disclosure, or destruction.</p>
 <p><strong>Your Rights</strong></p>
-<p>Depending on your location, you may have rights to access, correct, delete, or restrict processing of your personal data, and to object to certain processing activities. To exercise these rights, please contact us at info@medradconsultancy.com. We will respond within a reasonable timeframe.</p>
+<p>Depending on your location, you may have rights to access, correct, delete, or restrict processing of your personal data, and to object to certain processing activities. To exercise these rights, please contact us at info@radiationequipmentconsultancy.com. We will respond within a reasonable timeframe.</p>
 <p><strong>Cookies and Analytics</strong></p>
 <p>Our website may use cookies and similar technologies to improve user experience and analyse traffic patterns. You can control cookie preferences through your browser settings. Where we use analytics services such as Google Analytics, data is processed in accordance with the provider's terms and applicable privacy regulations.</p>
 <p><strong>International Transfers</strong></p>
@@ -106,22 +106,22 @@ class SeedData
 <p><strong>Changes to This Policy</strong></p>
 <p>We may update this Privacy Policy from time to time. The revised version will be posted on this page with an updated effective date. We encourage you to review this policy periodically.</p>
 <p><strong>Contact Us</strong></p>
-<p>If you have questions about this Privacy Policy or how we handle your personal data, please contact us at info@medradconsultancy.com or write to MedRad Technical Consultancy, 14 Harley Street, London W1G 9PQ, United Kingdom.</p>
+<p>If you have questions about this Privacy Policy or how we handle your personal data, please contact us at info@radiationequipmentconsultancy.com or write to Radiation Equipment Consultancy, 14 Harley Street, London W1G 9PQ, United Kingdom.</p>
 HTML;
     }
 
     private static function termsContent(): string
     {
         return <<<'HTML'
-<p>These Terms of Use govern your access to and use of the MedRad Technical Consultancy website. By using this website, you agree to these terms. If you do not agree, please do not use our site.</p>
+<p>These Terms of Use govern your access to and use of the Radiation Equipment Consultancy website. By using this website, you agree to these terms. If you do not agree, please do not use our site.</p>
 <p><strong>Website Content</strong></p>
 <p>The information on this website is provided for general informational purposes about our radiation equipment consultancy services. While we strive to keep content accurate and up to date, we make no warranties, express or implied, regarding completeness, reliability, or suitability for any particular purpose. Technical and regulatory requirements vary by jurisdiction and facility type; specific advice should always be obtained through a formal consultancy engagement.</p>
 <p><strong>No Professional Relationship</strong></p>
 <p>Submitting a contact form or browsing our website does not create a client-consultant relationship. A professional engagement is established only when we have agreed scope, fees, and terms in a written proposal or contract. Nothing on this website constitutes medical, legal, or regulatory advice for your specific circumstances.</p>
 <p><strong>Intellectual Property</strong></p>
-<p>All content on this website — including text, graphics, logos, images, and layout — is the property of MedRad Technical Consultancy or our licensors and is protected by copyright and intellectual property laws. You may not reproduce, distribute, modify, or create derivative works without our prior written consent, except for personal, non-commercial viewing or printing of pages for reference.</p>
+<p>All content on this website — including text, graphics, logos, images, and layout — is the property of Radiation Equipment Consultancy or our licensors and is protected by copyright and intellectual property laws. You may not reproduce, distribute, modify, or create derivative works without our prior written consent, except for personal, non-commercial viewing or printing of pages for reference.</p>
 <p><strong>Limitation of Liability</strong></p>
-<p>To the fullest extent permitted by law, MedRad Technical Consultancy shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from your use of this website or reliance on its content. This includes loss of data, business interruption, or equipment downtime, even if we have been advised of the possibility of such damages.</p>
+<p>To the fullest extent permitted by law, Radiation Equipment Consultancy shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from your use of this website or reliance on its content. This includes loss of data, business interruption, or equipment downtime, even if we have been advised of the possibility of such damages.</p>
 <p><strong>Third-Party Links</strong></p>
 <p>Our website may contain links to third-party websites for your convenience. We do not endorse and are not responsible for the content, privacy practices, or availability of external sites. Accessing linked sites is at your own risk.</p>
 <p><strong>Acceptable Use</strong></p>
@@ -131,7 +131,7 @@ HTML;
 <p><strong>Changes to These Terms</strong></p>
 <p>We may revise these Terms of Use at any time by updating this page. Continued use of the website after changes are posted constitutes acceptance of the revised terms.</p>
 <p><strong>Contact</strong></p>
-<p>For questions about these Terms of Use, please contact us at info@medradconsultancy.com.</p>
+<p>For questions about these Terms of Use, please contact us at info@radiationequipmentconsultancy.com.</p>
 HTML;
     }
 
@@ -152,7 +152,7 @@ HTML;
                 'section_key' => 'about_preview',
                 'title' => 'Trusted Technical Partners',
                 'subtitle' => 'Independent expertise you can rely on at every stage of your equipment lifecycle.',
-                'content' => '<p>MedRad Technical Consultancy is a specialist team of medical physicists, biomedical engineers, and radiation safety professionals. We support facilities from pre-purchase planning through installation, commissioning, staff training, and ongoing quality assurance — always putting patient safety and regulatory compliance first.</p>',
+                'content' => '<p>Radiation Equipment Consultancy is a specialist team of medical physicists, biomedical engineers, and radiation safety professionals. We support facilities from pre-purchase planning through installation, commissioning, staff training, and ongoing quality assurance — always putting patient safety and regulatory compliance first.</p>',
                 'button_text' => 'Learn About Us',
                 'button_url' => '/about',
                 'extra_data' => null,
@@ -180,7 +180,7 @@ HTML;
             ],
             [
                 'section_key' => 'why_choose_us',
-                'title' => 'Why Facilities Choose MedRad',
+                'title' => 'Why Facilities Choose Us',
                 'subtitle' => 'We combine technical authority with a collaborative, safety-first approach.',
                 'content' => null,
                 'button_text' => null,
@@ -299,8 +299,8 @@ HTML;
         $sections = [
             [
                 'section_key' => 'intro',
-                'title' => 'About MedRad Technical Consultancy',
-                'content' => '<p>MedRad Technical Consultancy is an independent advisory practice specialising in radiation-producing medical equipment. We support hospitals, cancer centres, diagnostic imaging departments, and nuclear medicine facilities at every stage of the equipment lifecycle — from strategic planning and vendor selection through installation, commissioning, staff training, and long-term quality assurance.</p><p>Founded by experienced medical physicists and biomedical engineers, we formed MedRad to fill a gap we saw repeatedly in the field: facilities needed impartial, deeply technical guidance that was not tied to any equipment manufacturer or reseller. Today we work with clients across Europe, the Middle East, Africa, and Asia-Pacific, bringing the same rigorous standards and collaborative approach to every engagement.</p><p>Our mission is straightforward — we help healthcare organisations deploy and maintain radiation equipment safely, compliantly, and clinically effectively, so clinical teams can focus on what matters most: patient care.</p>',
+                'title' => 'About Radiation Equipment Consultancy',
+                'content' => '<p>Radiation Equipment Consultancy is an independent advisory practice specialising in radiation-producing medical equipment. We support hospitals, cancer centres, diagnostic imaging departments, and nuclear medicine facilities at every stage of the equipment lifecycle — from strategic planning and vendor selection through installation, commissioning, staff training, and long-term quality assurance.</p><p>Founded by experienced medical physicists and biomedical engineers, we formed our practice to fill a gap we saw repeatedly in the field: facilities needed impartial, deeply technical guidance that was not tied to any equipment manufacturer or reseller. Today we work with clients across Europe, the Middle East, Africa, and Asia-Pacific, bringing the same rigorous standards and collaborative approach to every engagement.</p><p>Our mission is straightforward — we help healthcare organisations deploy and maintain radiation equipment safely, compliantly, and clinically effectively, so clinical teams can focus on what matters most: patient care.</p>',
                 'extra_data' => null,
                 'sort_order' => 1,
             ],
@@ -321,14 +321,14 @@ HTML;
             [
                 'section_key' => 'safety_philosophy',
                 'title' => 'Our Safety Philosophy',
-                'content' => '<p>At MedRad, safety is not a checkbox at the end of a project — it is the foundation of everything we do. Radiation equipment has the potential to deliver life-saving treatment and diagnosis, but only when installed, commissioned, and operated within strict safety and quality parameters.</p><p>Our safety philosophy rests on three principles:</p><p><strong>Prevention through design.</strong> We review shielding calculations, room layouts, interlocks, and workflow design early in every project so that safety is engineered in, not patched on later.</p><p><strong>Evidence-based verification.</strong> We apply rigorous acceptance testing, dosimetry checks, and documentation at commissioning to confirm equipment performs as specified before clinical use begins.</p><p><strong>Culture of continuous improvement.</strong> We train staff not just to operate equipment, but to understand the safety rationale behind procedures, empowering teams to identify and escalate concerns proactively.</p><p>We believe that regulatory compliance and clinical excellence are two sides of the same coin. When safety is done right, facilities pass inspections naturally and clinicians gain confidence in their technology.</p>',
+                'content' => '<p>At Radiation Equipment Consultancy, safety is not a checkbox at the end of a project — it is the foundation of everything we do. Radiation equipment has the potential to deliver life-saving treatment and diagnosis, but only when installed, commissioned, and operated within strict safety and quality parameters.</p><p>Our safety philosophy rests on three principles:</p><p><strong>Prevention through design.</strong> We review shielding calculations, room layouts, interlocks, and workflow design early in every project so that safety is engineered in, not patched on later.</p><p><strong>Evidence-based verification.</strong> We apply rigorous acceptance testing, dosimetry checks, and documentation at commissioning to confirm equipment performs as specified before clinical use begins.</p><p><strong>Culture of continuous improvement.</strong> We train staff not just to operate equipment, but to understand the safety rationale behind procedures, empowering teams to identify and escalate concerns proactively.</p><p>We believe that regulatory compliance and clinical excellence are two sides of the same coin. When safety is done right, facilities pass inspections naturally and clinicians gain confidence in their technology.</p>',
                 'extra_data' => null,
                 'sort_order' => 4,
             ],
             [
                 'section_key' => 'team',
                 'title' => 'Our Team',
-                'content' => '<p>MedRad is built around a core team of senior consultants, each bringing 15–25 years of field experience across multiple equipment platforms and healthcare settings. We supplement our permanent team with specialist associates for large-scale or multi-site projects, ensuring the right expertise is always on site.</p><p>Our team structure includes:</p><ul><li><strong>Senior Medical Physicists</strong> — leading radiotherapy commissioning, dosimetry, and QA programme design</li><li><strong>Biomedical Engineers</strong> — overseeing installation coordination, acceptance testing, and preventive maintenance planning</li><li><strong>Radiation Safety Specialists</strong> — managing regulatory documentation, shielding review, and compliance audits</li><li><strong>Clinical Training Coordinators</strong> — developing and delivering tailored staff training programmes</li><li><strong>Project Managers</strong> — coordinating multi-disciplinary equipment projects from planning through handover</li></ul><p>We pride ourselves on being approachable, responsive, and genuinely invested in our clients\' success. When you work with MedRad, you get direct access to senior consultants — not junior staff learning on your project.</p>',
+                'content' => '<p>We are built around a core team of senior consultants, each bringing 15–25 years of field experience across multiple equipment platforms and healthcare settings. We supplement our permanent team with specialist associates for large-scale or multi-site projects, ensuring the right expertise is always on site.</p><p>Our team structure includes:</p><ul><li><strong>Senior Medical Physicists</strong> — leading radiotherapy commissioning, dosimetry, and QA programme design</li><li><strong>Biomedical Engineers</strong> — overseeing installation coordination, acceptance testing, and preventive maintenance planning</li><li><strong>Radiation Safety Specialists</strong> — managing regulatory documentation, shielding review, and compliance audits</li><li><strong>Clinical Training Coordinators</strong> — developing and delivering tailored staff training programmes</li><li><strong>Project Managers</strong> — coordinating multi-disciplinary equipment projects from planning through handover</li></ul><p>We pride ourselves on being approachable, responsive, and genuinely invested in our clients\' success. When you work with MedRad, you get direct access to senior consultants — not junior staff learning on your project.</p>',
                 'extra_data' => null,
                 'sort_order' => 5,
             ],
@@ -419,7 +419,7 @@ HTML;
                     'Stakeholder communication plan and meeting minutes',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Facilities that engage us for installation oversight typically avoid costly rework, reduce vendor standby charges, and achieve faster transitions to commissioning. We protect your capital investment by ensuring the foundation is right before clinical testing begins.</p>',
-                'meta_title' => 'Radiation Equipment Installation Services | MedRad Consultancy',
+                'meta_title' => 'Radiation Equipment Installation Services | Radiation Equipment Consultancy',
                 'meta_description' => 'Independent installation oversight for linacs, CT scanners, and nuclear medicine equipment. We ensure site readiness and coordinate vendors for on-time, safe deployments.',
                 'sort_order' => 1,
             ],
@@ -444,7 +444,7 @@ HTML;
                     'Regulatory-ready commissioning summary',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Independent commissioning gives your clinical team confidence that equipment is safe and accurate from day one. We reduce regulatory risk, accelerate inspection readiness, and establish QA baselines that support long-term programme integrity.</p>',
-                'meta_title' => 'Medical Equipment Commissioning & Acceptance Testing | MedRad',
+                'meta_title' => 'Medical Equipment Commissioning & Acceptance Testing | Radiation Equipment Consultancy',
                 'meta_description' => 'Expert linac commissioning, CT acceptance testing, and nuclear medicine verification. Independent QA protocols aligned with IAEA and AAPM standards.',
                 'sort_order' => 2,
             ],
@@ -469,7 +469,7 @@ HTML;
                     'Quick-reference guides and standard operating procedure templates',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Well-trained staff operate equipment more safely, reduce unplanned downtime, and adapt faster to new clinical techniques. We help you build a sustainable training culture that satisfies regulators and empowers your team.</p>',
-                'meta_title' => 'Radiation Equipment Staff Training | MedRad Consultancy',
+                'meta_title' => 'Radiation Equipment Staff Training | Radiation Equipment Consultancy',
                 'meta_description' => 'Custom staff training for radiotherapy, diagnostic imaging, and nuclear medicine teams. Competency-based programmes with documented assessment.',
                 'sort_order' => 3,
             ],
@@ -494,7 +494,7 @@ HTML;
                     'Final recommendation report with executive summary',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Independent pre-purchase advice protects your investment and accelerates procurement decisions. We help you avoid expensive mistakes and select equipment that genuinely serves your patients and operational model.</p>',
-                'meta_title' => 'Pre-Purchase Equipment Consultation | MedRad Consultancy',
+                'meta_title' => 'Pre-Purchase Equipment Consultation | Radiation Equipment Consultancy',
                 'meta_description' => 'Vendor-neutral radiation equipment selection advice for hospitals and cancer centres. We evaluate linacs, CT, PET-CT, and more against your clinical needs.',
                 'sort_order' => 4,
             ],
@@ -519,7 +519,7 @@ HTML;
                     'Project close-out report with lessons learned',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Structured project management reduces delays, controls costs, and ensures nothing falls through the cracks. We give hospital leadership visibility and confidence throughout the project lifecycle.</p>',
-                'meta_title' => 'Radiation Equipment Project Management | MedRad',
+                'meta_title' => 'Radiation Equipment Project Management | Radiation Equipment Consultancy',
                 'meta_description' => 'Expert project management for linac installations, imaging suite upgrades, and nuclear medicine deployments. On-time delivery with full documentation.',
                 'sort_order' => 5,
             ],
@@ -544,7 +544,7 @@ HTML;
                     'Inspection readiness checklist and evidence index',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Proactive compliance management prevents enforcement actions, reduces occupational exposure, and builds a culture of safety. We help you stay ahead of regulatory changes rather than scrambling to catch up.</p>',
-                'meta_title' => 'Radiation Safety & Compliance Consulting | MedRad',
+                'meta_title' => 'Radiation Safety & Compliance Consulting | Radiation Equipment Consultancy',
                 'meta_description' => 'Radiation safety programme design, shielding review, and regulatory inspection preparation for hospitals and imaging centres worldwide.',
                 'sort_order' => 6,
             ],
@@ -569,7 +569,7 @@ HTML;
                     'Annual QA summary with trend analysis',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Robust QA programmes catch problems before they affect patients, satisfy accreditation requirements, and extend equipment useful life. We bring objectivity and depth that complements your in-house physics and engineering teams.</p>',
-                'meta_title' => 'Quality Assurance & Dosimetry Services | MedRad',
+                'meta_title' => 'Quality Assurance & Dosimetry Services | Radiation Equipment Consultancy',
                 'meta_description' => 'Clinical dosimetry audits, QA protocol development, and periodic testing for linacs, CT scanners, and nuclear medicine systems.',
                 'sort_order' => 7,
             ],
@@ -594,7 +594,7 @@ HTML;
                     'Final decommissioning certificate and waste disposal records',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Properly managed relocation preserves equipment value and minimises clinical downtime. Structured decommissioning ensures regulatory closure and frees facility space for new investments without legacy liability.</p>',
-                'meta_title' => 'Equipment Relocation & Decommissioning | MedRad',
+                'meta_title' => 'Equipment Relocation & Decommissioning | Radiation Equipment Consultancy',
                 'meta_description' => 'Safe relocation and regulatory-compliant decommissioning of linacs, CT scanners, and nuclear medicine equipment. Full documentation and site clearance.',
                 'sort_order' => 8,
             ],
@@ -619,7 +619,7 @@ HTML;
                     'Quarterly equipment performance summary',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Effective preventive maintenance reduces emergency repairs, extends equipment life, and improves patient access. We give your engineering team an independent expert resource they can trust.</p>',
-                'meta_title' => 'Preventive Maintenance & Technical Support | MedRad',
+                'meta_title' => 'Preventive Maintenance & Technical Support | Radiation Equipment Consultancy',
                 'meta_description' => 'Independent PM planning and technical advisory for radiation equipment. We maximise uptime for linacs, imaging systems, and nuclear medicine devices.',
                 'sort_order' => 9,
             ],
@@ -644,7 +644,7 @@ HTML;
                     'Approved licence copies and compliance register',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Professional regulatory documentation accelerates approval timelines and reduces the risk of enforcement action. We speak the language of regulators and know what evidence they expect to see.</p>',
-                'meta_title' => 'Regulatory Documentation & Licensing | MedRad',
+                'meta_title' => 'Regulatory Documentation & Licensing | Radiation Equipment Consultancy',
                 'meta_description' => 'Radiation equipment licence applications, regulatory submissions, and compliance documentation prepared by experienced consultants.',
                 'sort_order' => 10,
             ],
@@ -669,7 +669,7 @@ HTML;
                     'Implementation progress review at agreed milestones',
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'benefits' => '<p>Programme optimisation improves patient access, staff satisfaction, and accreditation readiness. We help you get more value from your existing equipment and team without compromising safety.</p>',
-                'meta_title' => 'Clinical Program Optimisation | MedRad Consultancy',
+                'meta_title' => 'Clinical Program Optimisation | Radiation Equipment Consultancy',
                 'meta_description' => 'Strategic review and optimisation of radiotherapy, imaging, and nuclear medicine programmes. We improve efficiency, safety, and clinical outcomes.',
                 'sort_order' => 11,
             ],
@@ -742,7 +742,7 @@ HTML;
                 'title' => 'Linac Commissioning Best Practices: What Every Cancer Centre Should Know',
                 'excerpt' => 'A practical guide to independent linac commissioning — from protocol selection through clinical release documentation.',
                 'content' => self::blogLinacCommissioning(),
-                'meta_title' => 'Linac Commissioning Best Practices | MedRad Blog',
+                'meta_title' => 'Linac Commissioning Best Practices | Radiation Equipment Consultancy Blog',
                 'meta_description' => 'Essential commissioning steps for linear accelerators. We explain independent verification, dosimetry baselines, and regulatory documentation.',
                 'published_at' => '2026-03-15 09:00:00',
             ],
@@ -752,7 +752,7 @@ HTML;
                 'title' => 'Planning a CT Scanner Installation: Site Readiness and Common Pitfalls',
                 'excerpt' => 'How we help hospitals avoid costly delays when installing new CT systems — from shielding to HVAC and workflow design.',
                 'content' => self::blogCtInstallation(),
-                'meta_title' => 'CT Scanner Installation Planning Guide | MedRad Blog',
+                'meta_title' => 'CT Scanner Installation Planning Guide | Radiation Equipment Consultancy Blog',
                 'meta_description' => 'Site readiness checklist for CT scanner installations. Shielding, utilities, and vendor coordination explained by our engineering team.',
                 'published_at' => '2026-04-02 09:00:00',
             ],
@@ -762,7 +762,7 @@ HTML;
                 'title' => 'Radiation Safety Compliance for Hospitals: Staying Ahead of Regulatory Changes',
                 'excerpt' => 'Key compliance obligations for radiation-producing equipment and how we help facilities prepare for successful inspections.',
                 'content' => self::blogRadiationSafety(),
-                'meta_title' => 'Hospital Radiation Safety Compliance | MedRad Blog',
+                'meta_title' => 'Hospital Radiation Safety Compliance | Radiation Equipment Consultancy Blog',
                 'meta_description' => 'Regulatory compliance guidance for hospital radiation programmes. Local rules, risk assessments, and inspection preparation.',
                 'published_at' => '2026-05-10 09:00:00',
             ],
@@ -772,7 +772,7 @@ HTML;
                 'title' => 'Quality Assurance in Nuclear Medicine: Building a Sustainable Equipment Programme',
                 'excerpt' => 'Why nuclear medicine QA requires a modality-specific approach — and how we help departments maintain consistent testing standards.',
                 'content' => self::blogNuclearMedicineQa(),
-                'meta_title' => 'Nuclear Medicine Equipment QA | MedRad Blog',
+                'meta_title' => 'Nuclear Medicine Equipment QA | Radiation Equipment Consultancy Blog',
                 'meta_description' => 'QA programme design for gamma cameras, PET-CT, and SPECT systems. Practical advice from our nuclear medicine consultants.',
                 'published_at' => '2026-06-01 09:00:00',
             ],
@@ -811,7 +811,7 @@ HTML;
     {
         return <<<'HTML'
 <p>Commissioning a linear accelerator is among the most consequential activities in any radiotherapy department. It is the process through which we verify that a complex, high-energy system is safe, accurate, and ready for clinical use. Yet commissioning scope varies significantly between vendors, and many facilities lack the in-house medical physics capacity to verify results independently. This gap is where problems begin — and where a structured, evidence-based approach makes the difference.</p>
-<p>At MedRad, we begin every linac commissioning engagement by defining protocols aligned with international standards such as IAEA TRS-430, AAPM Task Group reports, and the manufacturer's own acceptance criteria. We do not simply witness vendor testing; we perform independent measurements using calibrated ionisation chambers, water phantoms, and electronic portal imaging devices. This dual-track approach ensures that beam data, mechanical isocentre, MLC positioning, and safety interlocks are verified from two independent perspectives before clinical release.</p>
+<p>We begin every linac commissioning engagement by defining protocols aligned with international standards such as IAEA TRS-430, AAPM Task Group reports, and the manufacturer's own acceptance criteria. We do not simply witness vendor testing; we perform independent measurements using calibrated ionisation chambers, water phantoms, and electronic portal imaging devices. This dual-track approach ensures that beam data, mechanical isocentre, MLC positioning, and safety interlocks are verified from two independent perspectives before clinical release.</p>
 <p>One of the most common issues we encounter is incomplete documentation. Commissioning generates enormous volumes of data — beam profiles, output factors, wedge factors, imaging chain QA, and mechanical tolerances. Without a structured documentation framework, critical results are scattered across vendor reports, email threads, and handwritten notes. We compile a commissioning dossier designed for regulatory submission and clinical governance review, with clear traceability from raw measurements to acceptance decisions.</p>
 <p>For facilities commissioning their first linac or upgrading to a new platform, we recommend engaging independent consultancy support before the vendor arrives on site. Early involvement allows us to review bunker readiness, confirm dosimetry equipment calibration, and align your physics team on roles and responsibilities. The result is a smoother commissioning timeline, fewer surprises at acceptance, and a QA baseline that supports your department for years to come.</p>
 HTML;
@@ -856,7 +856,7 @@ HTML;
                 'Dr. Amara Okafor',
                 'Lagos University Teaching Hospital',
                 'Head of Radiotherapy Physics',
-                'We engaged MedRad to oversee the installation and commissioning of our first linear accelerator. Their team identified shielding deficiencies and utility shortfalls three months before vendor delivery, saving us an estimated six weeks of delay. The independent commissioning verification gave our regulators confidence and our clinicians peace of mind.',
+                'We engaged Radiation Equipment Consultancy to oversee the installation and commissioning of our first linear accelerator. Their team identified shielding deficiencies and utility shortfalls three months before vendor delivery, saving us an estimated six weeks of delay. The independent commissioning verification gave our regulators confidence and our clinicians peace of mind.',
                 'Commissioning completed 6 weeks ahead of revised schedule',
                 5,
                 1,
@@ -865,7 +865,7 @@ HTML;
                 'James Whitfield',
                 'Mercy Regional Medical Centre',
                 'Director of Biomedical Engineering',
-                'When we needed to relocate two CT scanners during a major department refurbishment, MedRad managed the entire process — regulatory notifications, vendor coordination, and post-move acceptance testing. Both systems were clinically operational within the planned window with zero unplanned downtime for emergency imaging.',
+                'When we needed to relocate two CT scanners during a major department refurbishment, Radiation Equipment Consultancy managed the entire process — regulatory notifications, vendor coordination, and post-move acceptance testing. Both systems were clinically operational within the planned window with zero unplanned downtime for emergency imaging.',
                 'Zero unplanned imaging downtime during relocation',
                 5,
                 2,
@@ -874,7 +874,7 @@ HTML;
                 'Dr. Fatima Al-Rashid',
                 'Gulf Oncology Institute',
                 'Chief Medical Physicist',
-                'MedRad conducted a comprehensive radiation safety compliance audit ahead of our regulatory inspection. They rewrote our local rules, updated risk assessments, and trained our staff on new procedures. We passed inspection with no major findings — the first time in our department\'s history.',
+                'Radiation Equipment Consultancy conducted a comprehensive radiation safety compliance audit ahead of our regulatory inspection. They rewrote our local rules, updated risk assessments, and trained our staff on new procedures. We passed inspection with no major findings — the first time in our department\'s history.',
                 'First inspection passed with zero major findings',
                 5,
                 3,
@@ -896,51 +896,51 @@ HTML;
         $entries = [
             [
                 'home',
-                'MedRad Technical Consultancy | Radiation Equipment Experts',
+                'Radiation Equipment Consultancy | Radiation Equipment Experts',
                 'Independent consultancy for radiation equipment installation, commissioning, and compliance. We support hospitals and cancer centres worldwide.',
                 'radiation equipment consultancy, medical physics, linac commissioning, hospital equipment installation',
             ],
             [
                 'about',
-                'About Us | MedRad Technical Consultancy',
+                'About Us | Radiation Equipment Consultancy',
                 'Meet our team of medical physicists and biomedical engineers. We provide independent radiation equipment expertise with a safety-first philosophy.',
                 'radiation consultancy team, medical physicists, biomedical engineers, radiation safety',
             ],
             [
                 'services',
-                'Our Services | MedRad Technical Consultancy',
+                'Our Services | Radiation Equipment Consultancy',
                 'Eleven specialist consultancy services covering installation, commissioning, training, project management, radiation safety, and clinical programme optimisation.',
                 'radiation equipment services, commissioning, installation, staff training, regulatory compliance',
             ],
             [
                 'equipment',
-                'Equipment Expertise | MedRad Technical Consultancy',
+                'Equipment Expertise | Radiation Equipment Consultancy',
                 'Technical expertise across radiotherapy, diagnostic radiology, and nuclear medicine equipment including linacs, CT, PET-CT, and gamma cameras.',
                 'linac expertise, CT scanner, PET-CT, gamma camera, radiation equipment',
             ],
             [
                 'blog',
-                'Resources & Insights | MedRad Technical Consultancy',
+                'Resources & Insights | Radiation Equipment Consultancy',
                 'Technical guides, industry insights, and regulatory updates on radiation equipment installation, commissioning, and quality assurance.',
                 'radiation equipment blog, commissioning guide, radiation safety, nuclear medicine QA',
             ],
             [
                 'contact',
-                'Contact Us | MedRad Technical Consultancy',
+                'Contact Us | Radiation Equipment Consultancy',
                 'Request a consultation for your radiation equipment project. We respond to all enquiries within 24 hours on business days.',
-                'contact radiation consultant, equipment consultancy enquiry, medrad contact',
+                'contact radiation consultant, equipment consultancy enquiry, radiation equipment consultancy contact',
             ],
             [
                 'privacy',
-                'Privacy Policy | MedRad Technical Consultancy',
+                'Privacy Policy | Radiation Equipment Consultancy',
                 'How we collect, use, and protect your personal information when you use our website or contact us for consultancy services.',
-                'privacy policy, data protection, medrad consultancy',
+                'privacy policy, data protection, radiation equipment consultancy',
             ],
             [
                 'terms',
-                'Terms of Use | MedRad Technical Consultancy',
-                'Terms governing your use of the MedRad Technical Consultancy website and informational content.',
-                'terms of use, website terms, medrad consultancy',
+                'Terms of Use | Radiation Equipment Consultancy',
+                'Terms governing your use of the Radiation Equipment Consultancy website and informational content.',
+                'terms of use, website terms, radiation equipment consultancy',
             ],
         ];
 

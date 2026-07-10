@@ -1,9 +1,12 @@
 <?php
 /**
- * Copy this file to config.php and update values for your environment.
+ * Copy this file to config.local.php for local XAMPP development.
+ *
+ * Production uses config.production.php on the server (see DEPLOY.md).
+ * config.php auto-loads the correct file based on the domain.
  */
 return [
-    'app_name' => 'MedRad Technical Consultancy',
+    'app_name' => 'Radiation Equipment Consultancy',
     'app_url' => 'http://localhost/biomedical_consultancy',
     'debug' => true,
 
@@ -17,19 +20,19 @@ return [
     ],
 
     'mail' => [
-        'from_email' => 'noreply@medradconsultancy.com',
-        'from_name' => 'MedRad Technical Consultancy',
-        'admin_email' => 'info@medradconsultancy.com',
+        'from_email' => 'noreply@radiationequipmentconsultancy.com',
+        'from_name' => 'Radiation Equipment Consultancy',
+        'admin_email' => 'info@radiationequipmentconsultancy.com',
     ],
 
     'upload' => [
-        'max_size' => 5242880, // 5MB
+        'max_size' => 5242880,
         'allowed_types' => ['image/jpeg', 'image/png', 'image/webp'],
         'path' => __DIR__ . '/../../uploads/',
     ],
 
     'session' => [
-        'name' => 'MEDRAD_SESSION',
+        'name' => 'REC_SESSION',
         'lifetime' => 7200,
     ],
 ];

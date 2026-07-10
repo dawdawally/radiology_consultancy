@@ -6,7 +6,7 @@
                 <li class="breadcrumb-item active">About Us</li>
             </ol>
         </nav>
-        <h1 data-aos="fade-up">About MedRad Technical Consultancy</h1>
+        <h1 data-aos="fade-up">About <?= e(getSetting('site_name')) ?></h1>
         <p class="lead" data-aos="fade-up" data-aos-delay="100"><?= e(getSetting('tagline')) ?></p>
     </div>
 </section>

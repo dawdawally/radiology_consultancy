@@ -1,5 +1,5 @@
-# Local configuration (contains database credentials and environment-specific URLs)
-includes/config/config.php
+includes/config/config.local.php
+includes/config/config.production.php
 .env
 .env.*
 

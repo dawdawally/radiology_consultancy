@@ -17,11 +17,11 @@ A professional, CMS-driven consultancy website for radiation equipment installat
 
 ## Local Setup
 
-1. **Copy configuration**
+1. **Copy local configuration**
    ```bash
-   cp includes/config/config.example.php includes/config/config.php
+   cp includes/config/config.example.php includes/config/config.local.php
    ```
-   Update database credentials and `app_url` in `config.php`.
+   Production uses a separate `config.production.php` on the server (see DEPLOY.md).
 
 2. **Create the database and seed content**
    ```bash
@@ -46,12 +46,16 @@ Change the password immediately after first login via **Profile** in the admin d
 
 ## Hostinger Deployment
 
-1. Upload all files to `public_html` (or subdirectory)
-2. Create MySQL database in Hostinger panel
-3. Update `includes/config/config.php` with production DB credentials and `app_url`
-4. Run `php database/install.php` via SSH or import `database/schema.sql` then run seed via browser-accessible install (remove install script after use)
-5. Ensure `uploads/` is writable (`chmod 755`)
-6. Enable SSL certificate
+**Domain:** https://radiationequipmentconsultancy.com
+
+See **[DEPLOY.md](DEPLOY.md)** for the full step-by-step Hostinger deployment guide.
+
+Quick summary:
+1. Upload code to `public_html`
+2. Upload production `config.production.php` with Hostinger DB credentials
+3. Use `.htaccess.production` on the server (domain root + HTTPS)
+4. Run `APP_ENV=production php database/install.php` via SSH, then delete installer
+5. Enable SSL, change admin password, update Settings
 
 ## Project Structure
 

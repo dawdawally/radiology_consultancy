@@ -1,0 +1,24 @@
+RewriteEngine On
+
+# Production — site at domain root (public_html)
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Security
+<FilesMatch "\.(sql|md|example\.php)$">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes
+
+# Block direct web access to installer (delete install.php after setup)
+<FilesMatch "^(install|reseed_equipment)\.php$">
+    Require all denied
+</FilesMatch>

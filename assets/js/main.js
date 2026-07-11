@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     initScrollReveal();
+    initAutoDismissAlerts();
 
     const navbar = document.querySelector('.site-navbar');
     if (navbar) {
@@ -18,6 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+function initAutoDismissAlerts() {
+    document.querySelectorAll('.alert-success.alert-dismissible').forEach(function (alert) {
+        window.setTimeout(function () {
+            bootstrap.Alert.getOrCreateInstance(alert).close();
+        }, 5000);
+    });
+}
 
 function initScrollReveal() {
     const elements = document.querySelectorAll('[data-aos]');

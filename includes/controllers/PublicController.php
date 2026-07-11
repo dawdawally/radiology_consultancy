@@ -183,7 +183,8 @@ class PublicController
         $body = "Name: {$data['name']}\nEmail: {$data['email']}\nPhone: {$data['phone']}\n\n{$data['message']}";
         sendMail($adminEmail, $subject, $body, $data['email']);
 
-        setFlash('success', getSetting('response_time', 'We respond to all inquiries within 24 hours.'));
+        $responseTime = getSetting('response_time', 'We respond to all inquiries within 24 hours.');
+        setFlash('success', 'Your message was sent successfully. ' . $responseTime);
         redirect(url('contact'));
     }
 

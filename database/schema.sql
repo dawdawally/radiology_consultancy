@@ -5,6 +5,7 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS activity_logs;
+DROP TABLE IF EXISTS message_replies;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS blog_posts;
 DROP TABLE IF EXISTS blog_categories;
@@ -141,6 +142,19 @@ CREATE TABLE messages (
     is_read TINYINT(1) DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_messages_read (is_read, created_at)
+) ENGINE=InnoDB;
+
+CREATE TABLE message_replies (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    message_id INT UNSIGNED NOT NULL,
+    admin_id INT UNSIGNED NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    body TEXT NOT NULL,
+    email_sent TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (message_id) REFERENCES messages(id) ON DELETE CASCADE,
+    FOREIGN KEY (admin_id) REFERENCES admin_users(id) ON DELETE CASCADE,
+    INDEX idx_message_replies_message (message_id, created_at)
 ) ENGINE=InnoDB;
 
 CREATE TABLE seo (

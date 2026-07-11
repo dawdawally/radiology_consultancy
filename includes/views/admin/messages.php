@@ -27,12 +27,37 @@
             <dl class="row mb-4">
                 <dt class="col-sm-3">From</dt><dd class="col-sm-9"><?= e($viewMessage['name']) ?> &lt;<?= e($viewMessage['email']) ?>&gt;</dd>
                 <?php if ($viewMessage['phone']): ?><dt class="col-sm-3">Phone</dt><dd class="col-sm-9"><?= e($viewMessage['phone']) ?></dd><?php endif; ?>
-                <dt class="col-sm-3">Date</dt><dd class="col-sm-9"><?= formatDate($viewMessage['created_at'], 'd M Y H:i') ?></dd>
-                <dt class="col-sm-3">Message</dt><dd class="col-sm-9"><div class="border rounded p-3 bg-light"><?= nl2br(e($viewMessage['message'])) ?></div></dd>
             </dl>
 
+            <h6 class="mb-3">Conversation</h6>
+            <div class="message-thread mb-4">
+                <div class="thread-item thread-inbound">
+                    <div class="thread-meta">
+                        <strong><?= e($viewMessage['name']) ?></strong>
+                        <span class="text-muted"><?= formatDate($viewMessage['created_at'], 'd M Y H:i') ?></span>
+                    </div>
+                    <div class="thread-body"><?= nl2br(e($viewMessage['message'])) ?></div>
+                </div>
+
+                <?php foreach ($replies as $reply): ?>
+                <div class="thread-item thread-outbound">
+                    <div class="thread-meta">
+                        <strong><?= e($reply['admin_name'] ?: $reply['admin_username']) ?></strong>
+                        <span class="text-muted"><?= formatDate($reply['created_at'], 'd M Y H:i') ?></span>
+                        <?php if (!$reply['email_sent']): ?>
+                        <span class="badge bg-warning text-dark">Email not sent</span>
+                        <?php endif; ?>
+                    </div>
+                    <?php if ($reply['subject']): ?>
+                    <div class="thread-subject text-muted small mb-1">Subject: <?= e($reply['subject']) ?></div>
+                    <?php endif; ?>
+                    <div class="thread-body"><?= nl2br(e($reply['body'])) ?></div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
             <h6 class="mb-3">Reply</h6>
-            <form method="POST" action="<?= adminUrl('page=messages&action=reply') ?>">
+            <form method="POST" action="<?= adminUrl('page=messages&action=reply') ?>" data-loading-on-submit>
                 <?= csrfField() ?>
                 <input type="hidden" name="message_id" value="<?= (int) $viewMessage['id'] ?>">
                 <div class="mb-3">
@@ -48,7 +73,9 @@
                     <textarea name="body" class="form-control" rows="8" required placeholder="Type your response to the client..."></textarea>
                 </div>
                 <div class="d-flex flex-wrap gap-2">
-                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane me-1"></i>Send Reply</button>
+                    <button type="submit" class="btn btn-primary" data-loading-text="Sending...">
+                        <i class="fa-solid fa-paper-plane me-1"></i>Send Reply
+                    </button>
                     <a href="<?= e(replyMailtoUrl($viewMessage)) ?>" class="btn btn-outline-secondary">Open in Email App</a>
                 </div>
             </form>

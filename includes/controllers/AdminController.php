@@ -360,11 +360,15 @@ class AdminController
                 . formatDate($original['created_at'], 'd M Y H:i') . ":\n" . $original['message'];
 
             $replyTo = getSetting('email', config('mail.admin_email'));
-            if (sendMail($original['email'], $subject, $fullBody, $replyTo)) {
-                logActivity('reply', 'messages', $id, 'Replied to contact message');
+            $sent = sendMail($original['email'], $subject, $fullBody, $replyTo);
+
+            $model->createReply($id, currentUserId(), $subject, $body, $sent);
+            logActivity('reply', 'messages', $id, $sent ? 'Replied to contact message' : 'Reply saved but email failed');
+
+            if ($sent) {
                 setFlash('success', 'Reply sent to ' . $original['email'] . '.');
             } else {
-                setFlash('danger', 'Could not send email. Verify Hostinger mail is configured, or use Open in Email App.');
+                setFlash('danger', 'Reply saved to thread but email could not be sent. Verify Hostinger mail settings, or use Open in Email App.');
             }
 
             redirect(adminUrl('page=messages&view=' . $id));
@@ -385,6 +389,7 @@ class AdminController
             'pageHeading' => 'Contact Messages',
             'messages' => $model->getRecent(50),
             'viewMessage' => $viewMessage,
+            'replies' => $viewId ? $model->getReplies($viewId) : [],
         ]);
     }
 

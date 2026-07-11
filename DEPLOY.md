@@ -193,6 +193,30 @@ On the server, replace `.htaccess` with `.htaccess.production` for domain root +
 
 ---
 
+## Step 11 — Performance (slow connections)
+
+The codebase is tuned for fast repeat visits and smaller first loads:
+
+- **Gzip compression** and **1-year browser caching** for CSS/JS/images (`.htaccess.production`)
+- **Cache busting** via `asset()` file versions (`style.css?v=...`)
+- **Removed AOS library** — lightweight built-in scroll animations instead (2 fewer CDN requests)
+- **Single web font** (Inter only) instead of two families
+- **Deferred JavaScript** so HTML renders before scripts download
+- **Non-blocking Font Awesome** CSS on the public site
+
+### On Hostinger hPanel
+
+1. **Websites** → **Manage** → **Caching** → enable **LiteSpeed Cache** if available
+2. Keep **SSL / Force HTTPS** enabled
+3. Compress `assets/images/rmc_logo.png` (aim for under 30 KB) or convert to WebP and update templates if you add a `.webp` copy
+
+### After deploy, verify
+
+- Homepage loads with fewer network requests (no `aos.js` / `aos.css`)
+- Second page visit should load CSS/JS from browser cache (check DevTools → Network)
+
+---
+
 ## Files reference
 
 | File | Purpose |

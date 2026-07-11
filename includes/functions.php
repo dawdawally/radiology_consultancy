@@ -60,7 +60,15 @@ function linkUrl(?string $path): string
 
 function asset(string $path): string
 {
-    return url('assets/' . ltrim($path, '/'));
+    $relative = 'assets/' . ltrim($path, '/');
+    $fullPath = ROOT_PATH . '/' . $relative;
+    $url = url($relative);
+
+    if (is_file($fullPath)) {
+        $url .= '?v=' . filemtime($fullPath);
+    }
+
+    return $url;
 }
 
 function logoUrl(): string
@@ -145,6 +153,38 @@ function formatDate(?string $date, string $format = 'd M Y'): string
         return '';
     }
     return date($format, strtotime($date));
+}
+
+function sendMail(string $to, string $subject, string $body, ?string $replyTo = null): bool
+{
+    if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    $fromEmail = config('mail.from_email');
+    $fromName = config('mail.from_name', config('app_name', 'Radiation Equipment Consultancy'));
+    $replyTo = $replyTo ?? getSetting('email', config('mail.admin_email'));
+
+    $headers = [
+        'From: ' . sprintf('%s <%s>', $fromName, $fromEmail),
+        'Reply-To: ' . $replyTo,
+        'Content-Type: text/plain; charset=UTF-8',
+        'MIME-Version: 1.0',
+    ];
+
+    return @mail($to, $subject, $body, implode("\r\n", $headers));
+}
+
+/** Build a mailto link for replying to a contact message in the user's email app. */
+function replyMailtoUrl(array $message): string
+{
+    $email = $message['email'] ?? '';
+    $subject = 'Re: ' . ($message['subject'] ?: 'Your enquiry');
+    $quoted = "\n\n---\nOn " . formatDate($message['created_at'] ?? null, 'd M Y H:i')
+        . ', ' . ($message['name'] ?? '') . " wrote:\n" . ($message['message'] ?? '');
+    $query = http_build_query(['subject' => $subject, 'body' => $quoted], '', '&', PHP_QUERY_RFC3986);
+
+    return 'mailto:' . $email . ($query !== '' ? '?' . $query : '');
 }
 
 function logActivity(string $action, ?string $entityType = null, ?int $entityId = null, ?string $details = null): void

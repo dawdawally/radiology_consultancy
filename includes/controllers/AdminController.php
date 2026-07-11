@@ -338,6 +338,38 @@ class AdminController
     {
         $model = new MessageModel();
 
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'reply') {
+            $this->requireCsrf();
+            $id = (int) ($_POST['message_id'] ?? 0);
+            $original = $id ? $model->findById($id) : null;
+
+            if (!$original) {
+                setFlash('danger', 'Message not found.');
+                redirect(adminUrl('page=messages'));
+            }
+
+            $subject = trim($_POST['subject'] ?? '');
+            $body = trim($_POST['body'] ?? '');
+
+            if ($subject === '' || $body === '') {
+                setFlash('danger', 'Subject and reply message are required.');
+                redirect(adminUrl('page=messages&view=' . $id));
+            }
+
+            $fullBody = $body . "\n\n---\nIn reply to your message on "
+                . formatDate($original['created_at'], 'd M Y H:i') . ":\n" . $original['message'];
+
+            $replyTo = getSetting('email', config('mail.admin_email'));
+            if (sendMail($original['email'], $subject, $fullBody, $replyTo)) {
+                logActivity('reply', 'messages', $id, 'Replied to contact message');
+                setFlash('success', 'Reply sent to ' . $original['email'] . '.');
+            } else {
+                setFlash('danger', 'Could not send email. Verify Hostinger mail is configured, or use Open in Email App.');
+            }
+
+            redirect(adminUrl('page=messages&view=' . $id));
+        }
+
         if ($action === 'read' && isset($_GET['id'])) {
             $model->markRead((int) $_GET['id']);
             redirect(adminUrl('page=messages&view=' . (int) $_GET['id']));

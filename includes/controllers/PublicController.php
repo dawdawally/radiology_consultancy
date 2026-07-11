@@ -181,7 +181,7 @@ class PublicController
         $adminEmail = config('mail.admin_email');
         $subject = 'New Contact: ' . ($data['subject'] ?: 'Consultation Request');
         $body = "Name: {$data['name']}\nEmail: {$data['email']}\nPhone: {$data['phone']}\n\n{$data['message']}";
-        @mail($adminEmail, $subject, $body, 'From: ' . config('mail.from_email'));
+        sendMail($adminEmail, $subject, $body, $data['email']);
 
         setFlash('success', getSetting('response_time', 'We respond to all inquiries within 24 hours.'));
         redirect(url('contact'));

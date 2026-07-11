@@ -4,7 +4,7 @@
             <div class="col-lg-4">
                 <div class="footer-brand mb-3">
                     <a href="<?= url() ?>">
-                        <img src="<?= logoUrl() ?>" alt="<?= e(getSetting('site_name')) ?>" class="footer-logo">
+                        <img src="<?= logoUrl() ?>" alt="<?= e(getSetting('site_name')) ?>" class="footer-logo" width="160" height="48" loading="lazy" decoding="async">
                     </a>
                 </div>
                 <p class="text-white-50"><?= e(getSetting('footer_text')) ?></p>

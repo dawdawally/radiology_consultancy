@@ -9,11 +9,11 @@ class MessageModel extends BaseModel
     public function create(array $data): int
     {
         $stmt = $this->db->prepare(
-            'INSERT INTO messages (name, email, phone, subject, message) VALUES (?, ?, ?, ?, ?)'
+            'INSERT INTO messages (name, email, phone, topic, subject, message) VALUES (?, ?, ?, ?, ?, ?)'
         );
         $stmt->execute([
             $data['name'], $data['email'], $data['phone'] ?? null,
-            $data['subject'] ?? null, $data['message'],
+            $data['topic'] ?? null, $data['subject'] ?? null, $data['message'],
         ]);
         return (int) $this->db->lastInsertId();
     }

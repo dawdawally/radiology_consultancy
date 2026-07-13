@@ -361,6 +361,30 @@ a { text-decoration: none; transition: color 0.2s, opacity 0.2s; }
 }
 .social-link:hover { background: var(--primary); color: #fff; }
 
+.faq-accordion .accordion-item {
+    border: 1px solid var(--border);
+    border-radius: 12px !important;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+.faq-accordion .accordion-button {
+    font-weight: 600;
+    color: var(--secondary);
+    padding: 1.1rem 1.25rem;
+}
+.faq-accordion .accordion-button:not(.collapsed) {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    box-shadow: none;
+}
+.faq-accordion .accordion-body {
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+.faq-accordion .accordion-body p:last-child {
+    margin-bottom: 0;
+}
+
 /* Lightweight scroll reveal (replaces AOS library) */
 [data-aos] {
     opacity: 0;

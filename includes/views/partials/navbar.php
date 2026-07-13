@@ -15,6 +15,7 @@
                 <li class="nav-item"><a class="nav-link <?= isActiveNav('equipment') ?>" href="<?= url('equipment') ?>">Equipment</a></li>
                 <li class="nav-item"><a class="nav-link <?= isActiveNav('blog') ?>" href="<?= url('blog') ?>">Resources</a></li>
                 <li class="nav-item"><a class="nav-link <?= isActiveNav('testimonials') ?>" href="<?= url('testimonials') ?>">Case Studies</a></li>
+                <li class="nav-item"><a class="nav-link <?= isActiveNav('faq') ?>" href="<?= url('faq') ?>">FAQ</a></li>
                 <li class="nav-item ms-lg-2">
                     <a class="btn btn-primary btn-sm px-3 rounded-pill" href="<?= url('contact') ?>">Contact Us</a>
                 </li>

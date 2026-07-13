@@ -8,6 +8,7 @@ $navItems = [
     ['page' => 'equipment', 'icon' => 'fa-microscope', 'label' => 'Equipment'],
     ['page' => 'blog', 'icon' => 'fa-newspaper', 'label' => 'Blog'],
     ['page' => 'testimonials', 'icon' => 'fa-quote-left', 'label' => 'Testimonials'],
+    ['page' => 'faq', 'icon' => 'fa-circle-question', 'label' => 'FAQ'],
     ['page' => 'messages', 'icon' => 'fa-envelope', 'label' => 'Messages'],
     ['page' => 'media', 'icon' => 'fa-images', 'label' => 'Media'],
     ['page' => 'seo', 'icon' => 'fa-magnifying-glass', 'label' => 'SEO'],

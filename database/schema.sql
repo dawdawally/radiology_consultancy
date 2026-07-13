@@ -7,6 +7,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS activity_logs;
 DROP TABLE IF EXISTS message_replies;
 DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS faqs;
 DROP TABLE IF EXISTS blog_posts;
 DROP TABLE IF EXISTS blog_categories;
 DROP TABLE IF EXISTS testimonials;
@@ -137,6 +138,7 @@ CREATE TABLE messages (
     name VARCHAR(150) NOT NULL,
     email VARCHAR(150) NOT NULL,
     phone VARCHAR(50) DEFAULT NULL,
+    topic VARCHAR(150) DEFAULT NULL,
     subject VARCHAR(255) DEFAULT NULL,
     message TEXT NOT NULL,
     is_read TINYINT(1) DEFAULT 0,
@@ -155,6 +157,17 @@ CREATE TABLE message_replies (
     FOREIGN KEY (message_id) REFERENCES messages(id) ON DELETE CASCADE,
     FOREIGN KEY (admin_id) REFERENCES admin_users(id) ON DELETE CASCADE,
     INDEX idx_message_replies_message (message_id, created_at)
+) ENGINE=InnoDB;
+
+CREATE TABLE faqs (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    question VARCHAR(500) NOT NULL,
+    answer TEXT NOT NULL,
+    sort_order INT DEFAULT 0,
+    is_published TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_faqs_published (is_published, sort_order)
 ) ENGINE=InnoDB;
 
 CREATE TABLE seo (

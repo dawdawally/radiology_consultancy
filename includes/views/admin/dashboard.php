@@ -32,13 +32,13 @@
     <?php else: ?>
     <div class="table-responsive">
         <table class="table table-hover mb-0">
-            <thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Date</th><th></th></tr></thead>
+            <thead><tr><th>Name</th><th>Email</th><th>Topic</th><th>Date</th><th></th></tr></thead>
             <tbody>
             <?php foreach ($recentMessages as $msg): ?>
             <tr>
                 <td><?= e($msg['name']) ?><?= !$msg['is_read'] ? ' <span class="badge badge-unread">New</span>' : '' ?></td>
                 <td><?= e($msg['email']) ?></td>
-                <td><?= e(truncate($msg['subject'] ?? $msg['message'], 40)) ?></td>
+                <td><?= e(truncate($msg['subject'] ?: ($msg['topic'] ? contactTopicLabel($msg['topic']) : $msg['message']), 40)) ?></td>
                 <td><?= formatDate($msg['created_at'], 'd M Y H:i') ?></td>
                 <td><a href="<?= adminUrl('page=messages&view=' . $msg['id']) ?>" class="btn btn-sm btn-outline-primary">View</a></td>
             </tr>

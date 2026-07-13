@@ -12,7 +12,7 @@
                         <strong><?= e($msg['name']) ?></strong>
                         <?php if (!$msg['is_read']): ?><span class="badge bg-danger">New</span><?php endif; ?>
                     </div>
-                    <small><?= e(truncate($msg['subject'] ?? $msg['message'], 50)) ?></small>
+                    <small><?= e(truncate($msg['subject'] ?: ($msg['topic'] ? contactTopicLabel($msg['topic'], $services ?? []) : $msg['message']), 50)) ?></small>
                     <small class="d-block text-muted"><?= formatDate($msg['created_at'], 'd M Y H:i') ?></small>
                 </a>
                 <?php endforeach; ?>
@@ -23,10 +23,19 @@
     <div class="col-lg-7">
         <div class="admin-card">
             <?php if ($viewMessage): ?>
-            <h5 class="mb-3"><?= e($viewMessage['subject'] ?: 'Consultation Request') ?></h5>
+            <?php
+            $messageTitle = $viewMessage['subject']
+                ?: (!empty($viewMessage['topic']) ? contactTopicLabel($viewMessage['topic'], $services ?? []) : 'Consultation Request');
+            $replySubject = 'Re: ' . $messageTitle;
+            ?>
+            <h5 class="mb-3"><?= e($messageTitle) ?></h5>
             <dl class="row mb-4">
                 <dt class="col-sm-3">From</dt><dd class="col-sm-9"><?= e($viewMessage['name']) ?> &lt;<?= e($viewMessage['email']) ?>&gt;</dd>
+                <?php if (!empty($viewMessage['topic'])): ?>
+                <dt class="col-sm-3">Topic</dt><dd class="col-sm-9"><?= e(contactTopicLabel($viewMessage['topic'], $services ?? [])) ?></dd>
+                <?php endif; ?>
                 <?php if ($viewMessage['phone']): ?><dt class="col-sm-3">Phone</dt><dd class="col-sm-9"><?= e($viewMessage['phone']) ?></dd><?php endif; ?>
+                <?php if (!empty($viewMessage['subject'])): ?><dt class="col-sm-3">Details</dt><dd class="col-sm-9"><?= e($viewMessage['subject']) ?></dd><?php endif; ?>
             </dl>
 
             <h6 class="mb-3">Conversation</h6>
@@ -66,7 +75,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Subject</label>
-                    <input type="text" name="subject" class="form-control" required value="<?= e('Re: ' . ($viewMessage['subject'] ?: 'Your enquiry')) ?>">
+                    <input type="text" name="subject" class="form-control" required value="<?= e($replySubject) ?>">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Your reply</label>

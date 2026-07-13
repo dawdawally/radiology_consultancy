@@ -11,6 +11,7 @@ class PublicController
     private BlogModel $blog;
     private TestimonialModel $testimonials;
     private MessageModel $messages;
+    private FaqModel $faqs;
 
     public function __construct()
     {
@@ -21,6 +22,7 @@ class PublicController
         $this->blog = new BlogModel();
         $this->testimonials = new TestimonialModel();
         $this->messages = new MessageModel();
+        $this->faqs = new FaqModel();
     }
 
     public function dispatch(string $route): void
@@ -37,6 +39,7 @@ class PublicController
                 'blog' => $this->blogPage($parts[1] ?? null),
                 'testimonials' => $this->testimonialsPage(),
                 'contact' => $this->contactPage(),
+                'faq' => $this->faqPage(),
                 'privacy' => $this->legalPage('privacy'),
                 'terms' => $this->legalPage('terms'),
                 default => $this->notFound(),
@@ -145,6 +148,16 @@ class PublicController
         render('contact', [
             'pageTitle' => getSeo('contact')['meta_title'] ?? 'Contact Us',
             'metaDescription' => getSeo('contact')['meta_description'] ?? '',
+            'services' => $this->services->getPublished(),
+        ]);
+    }
+
+    private function faqPage(): void
+    {
+        render('faq', [
+            'pageTitle' => getSeo('faq')['meta_title'] ?? 'Frequently Asked Questions',
+            'metaDescription' => getSeo('faq')['meta_description'] ?? '',
+            'faqs' => $this->faqs->getPublished(),
         ]);
     }
 
@@ -159,14 +172,30 @@ class PublicController
             'name' => trim($_POST['name'] ?? ''),
             'email' => trim($_POST['email'] ?? ''),
             'phone' => trim($_POST['phone'] ?? ''),
+            'topic' => trim($_POST['topic'] ?? ''),
             'subject' => trim($_POST['subject'] ?? ''),
             'message' => trim($_POST['message'] ?? ''),
         ];
 
         storeOldInput($data);
 
-        if ($data['name'] === '' || $data['email'] === '' || $data['message'] === '') {
+        if ($data['name'] === '' || $data['email'] === '' || $data['message'] === '' || $data['topic'] === '') {
             setFlash('danger', 'Please fill in all required fields.');
+            redirect(url('contact'));
+        }
+
+        $publishedServices = $this->services->getPublished();
+        $validTopics = array_merge(
+            array_column($publishedServices, 'slug'),
+            ['general-inquiry', 'other']
+        );
+        if (!in_array($data['topic'], $validTopics, true)) {
+            setFlash('danger', 'Please select a valid topic.');
+            redirect(url('contact'));
+        }
+
+        if ($data['topic'] === 'other' && $data['subject'] === '') {
+            setFlash('danger', 'Please briefly describe your topic when selecting Other.');
             redirect(url('contact'));
         }
 
@@ -178,10 +207,15 @@ class PublicController
         $this->messages->create($data);
         clearOldInput();
 
+        $topicLabel = contactTopicLabel($data['topic'], $publishedServices);
         $adminEmail = config('mail.admin_email');
-        $subject = 'New Contact: ' . ($data['subject'] ?: 'Consultation Request');
-        $body = "Name: {$data['name']}\nEmail: {$data['email']}\nPhone: {$data['phone']}\n\n{$data['message']}";
-        sendMail($adminEmail, $subject, $body, $data['email']);
+        $emailSubject = 'New Contact: ' . $topicLabel . ($data['subject'] ? ' — ' . $data['subject'] : '');
+        $body = "Name: {$data['name']}\nEmail: {$data['email']}\nPhone: {$data['phone']}\nTopic: {$topicLabel}\n";
+        if ($data['subject'] !== '') {
+            $body .= "Subject: {$data['subject']}\n";
+        }
+        $body .= "\n{$data['message']}";
+        sendMail($adminEmail, $emailSubject, $body, $data['email']);
 
         $responseTime = getSetting('response_time', 'We respond to all inquiries within 24 hours.');
         setFlash('success', 'Your message was sent successfully. ' . $responseTime);

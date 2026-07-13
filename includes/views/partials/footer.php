@@ -16,6 +16,7 @@
                     <li><a href="<?= url('services') ?>">Services</a></li>
                     <li><a href="<?= url('equipment') ?>">Equipment</a></li>
                     <li><a href="<?= url('blog') ?>">Resources</a></li>
+                    <li><a href="<?= url('faq') ?>">FAQ</a></li>
                 </ul>
             </div>
             <div class="col-6 col-lg-2">

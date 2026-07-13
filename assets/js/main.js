@@ -18,7 +18,30 @@ document.addEventListener('DOMContentLoaded', function () {
             form.classList.add('was-validated');
         });
     });
+
+    initContactTopicField();
 });
+
+function initContactTopicField() {
+    const topicSelect = document.getElementById('contactTopic');
+    const otherWrap = document.getElementById('otherSubjectWrap');
+    const subjectInput = document.getElementById('contactSubject');
+    if (!topicSelect || !otherWrap || !subjectInput) {
+        return;
+    }
+
+    const syncTopicField = function () {
+        const isOther = topicSelect.value === 'other';
+        otherWrap.style.display = isOther ? '' : 'none';
+        subjectInput.required = isOther;
+        if (!isOther) {
+            subjectInput.value = '';
+        }
+    };
+
+    topicSelect.addEventListener('change', syncTopicField);
+    syncTopicField();
+}
 
 function initAutoDismissAlerts() {
     document.querySelectorAll('.alert-success.alert-dismissible').forEach(function (alert) {

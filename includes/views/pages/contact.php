@@ -23,6 +23,9 @@
                         <li><i class="fa-solid fa-phone"></i><div><strong>Phone</strong><br><?= e(getSetting('phone')) ?></div></li>
                         <li><i class="fa-solid fa-location-dot"></i><div><strong>Address</strong><br><?= e(getSetting('address')) ?></div></li>
                     </ul>
+                    <div class="mt-4">
+                        <a href="<?= url('faq') ?>" class="btn btn-outline-primary rounded-pill">View Frequently Asked Questions</a>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-7" data-aos="fade-left">
@@ -44,8 +47,22 @@
                                 <input type="tel" name="phone" class="form-control" value="<?= old('phone') ?>">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Subject</label>
-                                <input type="text" name="subject" class="form-control" value="<?= old('subject', $_GET['subject'] ?? '') ?>">
+                                <label class="form-label">Topic *</label>
+                                <?php $selectedTopic = old('topic', $_GET['topic'] ?? ''); ?>
+                                <select name="topic" class="form-select" required id="contactTopic">
+                                    <option value="" disabled <?= $selectedTopic === '' ? 'selected' : '' ?>>Select a topic</option>
+                                    <optgroup label="Our Services">
+                                        <?php foreach ($services as $service): ?>
+                                        <option value="<?= e($service['slug']) ?>" <?= $selectedTopic === $service['slug'] ? 'selected' : '' ?>><?= e($service['title']) ?></option>
+                                        <?php endforeach; ?>
+                                    </optgroup>
+                                    <option value="general-inquiry" <?= $selectedTopic === 'general-inquiry' ? 'selected' : '' ?>>General Inquiry</option>
+                                    <option value="other" <?= $selectedTopic === 'other' ? 'selected' : '' ?>>Other</option>
+                                </select>
+                            </div>
+                            <div class="col-12" id="otherSubjectWrap" style="<?= $selectedTopic === 'other' ? '' : 'display:none;' ?>">
+                                <label class="form-label">Please describe your topic *</label>
+                                <input type="text" name="subject" id="contactSubject" class="form-control" value="<?= old('subject', $_GET['subject'] ?? '') ?>" placeholder="Brief description of your enquiry">
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Message *</label>

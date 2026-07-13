@@ -300,3 +300,22 @@ function isActiveNav(string $route): string
     }
     return '';
 }
+
+/** Human-readable label for a contact form topic value. */
+function contactTopicLabel(string $topic, array $services = []): string
+{
+    if ($topic === 'general-inquiry') {
+        return 'General Inquiry';
+    }
+    if ($topic === 'other') {
+        return 'Other';
+    }
+
+    foreach ($services as $service) {
+        if (($service['slug'] ?? '') === $topic) {
+            return $service['title'];
+        }
+    }
+
+    return ucwords(str_replace('-', ' ', $topic));
+}

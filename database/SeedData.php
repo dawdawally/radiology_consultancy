@@ -26,6 +26,7 @@ class SeedData
             self::seedBlogCategories($pdo);
             self::seedBlogPosts($pdo);
             self::seedTestimonials($pdo);
+            self::seedFaqs($pdo);
             self::seedSeo($pdo);
 
             $pdo->commit();
@@ -891,6 +892,87 @@ HTML;
         }
     }
 
+    public static function seedFaqs(PDO $pdo): void
+    {
+        if ((int) $pdo->query('SELECT COUNT(*) FROM faqs')->fetchColumn() > 0) {
+            return;
+        }
+
+        $stmt = $pdo->prepare(
+            'INSERT INTO faqs (question, answer, sort_order, is_published) VALUES (?, ?, ?, 1)'
+        );
+
+        foreach (self::getFaqsData() as $faq) {
+            $stmt->execute([$faq['question'], $faq['answer'], $faq['sort_order']]);
+        }
+    }
+
+    private static function getFaqsData(): array
+    {
+        return [
+            [
+                'sort_order' => 1,
+                'question' => 'What services does Radiation Equipment Consultancy provide?',
+                'answer' => '<p>We offer eleven specialist consultancy services covering the full equipment lifecycle: installation oversight, commissioning and acceptance testing, staff training, pre-purchase consultation, project management, radiation safety and regulatory compliance, quality assurance and dosimetry, equipment relocation and decommissioning, preventive maintenance support, regulatory documentation and licensing, and clinical programme review and optimisation.</p><p>Each service is delivered by experienced medical physicists and biomedical engineers who work independently of equipment vendors.</p>',
+            ],
+            [
+                'sort_order' => 2,
+                'question' => 'Do you sell or supply radiation equipment?',
+                'answer' => '<p>No. We are an independent consultancy. We do not sell, distribute, or represent any equipment manufacturer. Our advice is vendor-neutral and focused solely on helping your facility make safe, compliant, and cost-effective decisions.</p>',
+            ],
+            [
+                'sort_order' => 3,
+                'question' => 'Which equipment types and modalities do you support?',
+                'answer' => '<p>We provide hands-on consultancy across radiotherapy (including linear accelerators and brachytherapy systems), diagnostic radiology (CT, MRI, X-ray, fluoroscopy, and mammography), and nuclear medicine (PET-CT, SPECT, and gamma cameras).</p><p>Our team supports projects from greenfield installations through upgrades, relocations, and decommissioning.</p>',
+            ],
+            [
+                'sort_order' => 4,
+                'question' => 'Can you help with linac commissioning and acceptance testing?',
+                'answer' => '<p>Yes. Commissioning and acceptance testing is one of our core services. We develop protocols aligned with IAEA, AAPM, IEC, and manufacturer requirements, perform or witness baseline measurements, independently verify vendor results, and compile regulatory-ready commissioning dossiers before clinical release.</p>',
+            ],
+            [
+                'sort_order' => 5,
+                'question' => 'How do you support hospitals planning a new equipment installation?',
+                'answer' => '<p>We begin with site readiness assessment — reviewing shielding, utilities, floor loads, and room dimensions against manufacturer specifications. We coordinate vendors and contractors, oversee key installation milestones, document deviations, and confirm readiness for commissioning before clinical testing begins.</p>',
+            ],
+            [
+                'sort_order' => 6,
+                'question' => 'Are you affiliated with any equipment manufacturers?',
+                'answer' => '<p>No. We maintain strict independence from vendors and distributors. This ensures our recommendations, commissioning oversight, and safety advice are objective and aligned with your facility\'s interests rather than any sales agenda.</p>',
+            ],
+            [
+                'sort_order' => 7,
+                'question' => 'How quickly will you respond to an enquiry?',
+                'answer' => '<p>We respond to all enquiries within 24 hours on business days. For urgent commissioning or regulatory matters, please note this in your message and we will prioritise your request where possible.</p>',
+            ],
+            [
+                'sort_order' => 8,
+                'question' => 'What is involved in pre-purchase equipment consultation?',
+                'answer' => '<p>We facilitate stakeholder workshops to define clinical and operational requirements, evaluate candidate systems using objective scorecards, assess infrastructure compatibility (shielding, utilities, IT integration), and deliver an evidence-based recommendation report including total cost of ownership considerations.</p>',
+            ],
+            [
+                'sort_order' => 9,
+                'question' => 'Can you help with radiation safety and regulatory compliance?',
+                'answer' => '<p>Yes. We conduct compliance gap analyses, develop or update radiation safety programmes and local rules, review shielding and dose assessments, and prepare your team for regulatory inspections with structured evidence packs and mock audits.</p>',
+            ],
+            [
+                'sort_order' => 10,
+                'question' => 'Do you provide ongoing quality assurance and dosimetry support?',
+                'answer' => '<p>We review existing QA programmes, optimise test protocols and frequencies, perform independent dosimetry audits and image quality assessments, and provide trend analysis with corrective action recommendations to maintain long-term equipment performance.</p>',
+            ],
+            [
+                'sort_order' => 11,
+                'question' => 'Can you manage an entire equipment installation project?',
+                'answer' => '<p>Yes. Our project management service covers charter and governance setup, integrated scheduling across civil works and vendor milestones, stakeholder coordination, risk management, and transparent progress reporting to hospital leadership throughout the project lifecycle.</p>',
+            ],
+            [
+                'sort_order' => 12,
+                'question' => 'Where do you deliver consultancy services?',
+                'answer' => '<p>We support hospitals, cancer centres, and healthcare facilities worldwide. Engagements range from remote advisory support to on-site installation oversight, commissioning, training, and regulatory preparation depending on project scope and location.</p>',
+            ],
+        ];
+    }
+
     private static function seedSeo(PDO $pdo): void
     {
         $entries = [
@@ -929,6 +1011,12 @@ HTML;
                 'Contact Us | Radiation Equipment Consultancy',
                 'Request a consultation for your radiation equipment project. We respond to all enquiries within 24 hours on business days.',
                 'contact radiation consultant, equipment consultancy enquiry, radiation equipment consultancy contact',
+            ],
+            [
+                'faq',
+                'Frequently Asked Questions | Radiation Equipment Consultancy',
+                'Answers to common questions about our radiation equipment consultancy services, commissioning, compliance, and how we work with healthcare facilities.',
+                'radiation equipment FAQ, commissioning questions, regulatory compliance FAQ, hospital equipment consultancy',
             ],
             [
                 'privacy',

@@ -16,6 +16,7 @@ class AdminController
             'equipment' => $this->equipment($action),
             'blog' => $this->blog($action),
             'testimonials' => $this->testimonials($action),
+            'faq' => $this->faq($action),
             'messages' => $this->messages($action),
             'seo' => $this->seo($action),
             'settings' => $this->settings($action),
@@ -334,6 +335,54 @@ class AdminController
         ]);
     }
 
+    private function faq(string $action): void
+    {
+        $model = new FaqModel();
+
+        if ($action === 'delete' && isset($_GET['id'])) {
+            $this->requireCsrfGet();
+            $model->delete((int) $_GET['id']);
+            setFlash('success', 'FAQ deleted.');
+            redirect(adminUrl('page=faq'));
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->requireCsrf();
+            $data = [
+                'question' => trim($_POST['question'] ?? ''),
+                'answer' => trim($_POST['answer'] ?? ''),
+                'sort_order' => (int) ($_POST['sort_order'] ?? 0),
+                'is_published' => isset($_POST['is_published']) ? 1 : 0,
+            ];
+            if ($action === 'create') {
+                $model->create($data);
+                setFlash('success', 'FAQ created.');
+            } elseif ($action === 'edit' && isset($_POST['id'])) {
+                $model->update((int) $_POST['id'], $data);
+                setFlash('success', 'FAQ updated.');
+            }
+            redirect(adminUrl('page=faq'));
+        }
+
+        if ($action === 'create') {
+            renderAdmin('faq_form', ['pageHeading' => 'Add FAQ', 'item' => null]);
+            return;
+        }
+
+        if ($action === 'edit' && isset($_GET['id'])) {
+            renderAdmin('faq_form', [
+                'pageHeading' => 'Edit FAQ',
+                'item' => $model->findById((int) $_GET['id']),
+            ]);
+            return;
+        }
+
+        renderAdmin('faq', [
+            'pageHeading' => 'FAQ Manager',
+            'items' => $model->findAll('sort_order ASC, id ASC'),
+        ]);
+    }
+
     private function messages(string $action): void
     {
         $model = new MessageModel();
@@ -390,6 +439,7 @@ class AdminController
             'messages' => $model->getRecent(50),
             'viewMessage' => $viewMessage,
             'replies' => $viewId ? $model->getReplies($viewId) : [],
+            'services' => (new ServiceModel())->getPublished(),
         ]);
     }
 

@@ -118,7 +118,16 @@ body.admin-body { margin: 0; background: #f1f5f9; font-family: 'Inter', system-u
     margin-bottom: 0.5rem;
     font-size: 0.85rem;
 }
-.thread-body { white-space: pre-wrap; word-break: break-word; }
+.thread-body {
+    word-break: break-word;
+    line-height: 1.65;
+}
+.thread-body p {
+    margin-bottom: 0.85rem;
+}
+.thread-body p:last-child {
+    margin-bottom: 0;
+}
 
 .messages-toolbar .form-select,
 .messages-toolbar .form-control {

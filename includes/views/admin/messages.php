@@ -90,7 +90,7 @@
                         <strong><?= e($viewMessage['name']) ?></strong>
                         <span class="text-muted"><?= formatDate($viewMessage['created_at'], 'd M Y H:i') ?></span>
                     </div>
-                    <div class="thread-body"><?= nl2br(e($viewMessage['message'])) ?></div>
+                    <div class="thread-body"><?= formatPlainTextBody($viewMessage['message']) ?></div>
                 </div>
 
                 <?php foreach ($replies as $reply): ?>
@@ -105,7 +105,7 @@
                     <?php if ($reply['subject']): ?>
                     <div class="thread-subject text-muted small mb-1">Subject: <?= e($reply['subject']) ?></div>
                     <?php endif; ?>
-                    <div class="thread-body"><?= nl2br(e($reply['body'])) ?></div>
+                    <div class="thread-body"><?= formatPlainTextBody($reply['body']) ?></div>
                 </div>
                 <?php endforeach; ?>
             </div>

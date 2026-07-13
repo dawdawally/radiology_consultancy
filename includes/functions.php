@@ -155,6 +155,32 @@ function formatDate(?string $date, string $format = 'd M Y'): string
     return date($format, strtotime($date));
 }
 
+/** Render plain-text message bodies with proper paragraphs. */
+function formatPlainTextBody(?string $text): string
+{
+    $text = str_replace(["\r\n", "\r"], "\n", (string) ($text ?? ''));
+    $text = preg_replace("/[ \t]+\n/", "\n", $text) ?? $text;
+    $text = preg_replace("/\n{3,}/", "\n\n", $text) ?? $text;
+    $text = trim($text);
+
+    if ($text === '') {
+        return '';
+    }
+
+    $paragraphs = preg_split("/\n\n+/", $text) ?: [];
+    $html = [];
+
+    foreach ($paragraphs as $paragraph) {
+        $paragraph = trim($paragraph);
+        if ($paragraph === '') {
+            continue;
+        }
+        $html[] = '<p>' . nl2br(e($paragraph), false) . '</p>';
+    }
+
+    return implode('', $html);
+}
+
 function sendMail(string $to, string $subject, string $body, ?string $replyTo = null): bool
 {
     if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {

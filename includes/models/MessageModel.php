@@ -26,6 +26,11 @@ class MessageModel extends BaseModel
         return $stmt->fetchAll();
     }
 
+    public function getAllForInbox(): array
+    {
+        return $this->db->query('SELECT * FROM messages ORDER BY created_at DESC')->fetchAll();
+    }
+
     public function getUnreadCount(): int
     {
         return (int) $this->db->query('SELECT COUNT(*) FROM messages WHERE is_read = 0')->fetchColumn();

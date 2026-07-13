@@ -423,6 +423,19 @@ class AdminController
             redirect(adminUrl('page=messages&view=' . $id));
         }
 
+        if ($action === 'delete' && isset($_GET['id'])) {
+            $this->requireCsrfGet();
+            $id = (int) $_GET['id'];
+            if ($model->findById($id)) {
+                $model->delete($id);
+                logActivity('delete', 'messages', $id, 'Deleted contact message');
+                setFlash('success', 'Message deleted.');
+            } else {
+                setFlash('danger', 'Message not found.');
+            }
+            redirect(adminUrl('page=messages'));
+        }
+
         if ($action === 'read' && isset($_GET['id'])) {
             $model->markRead((int) $_GET['id']);
             redirect(adminUrl('page=messages&view=' . (int) $_GET['id']));
@@ -436,7 +449,7 @@ class AdminController
 
         renderAdmin('messages', [
             'pageHeading' => 'Contact Messages',
-            'messages' => $model->getRecent(50),
+            'messages' => $model->getAllForInbox(),
             'viewMessage' => $viewMessage,
             'replies' => $viewId ? $model->getReplies($viewId) : [],
             'services' => (new ServiceModel())->getPublished(),

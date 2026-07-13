@@ -1,22 +1,61 @@
 <div class="row g-4">
     <div class="col-lg-5">
-        <div class="admin-card">
-            <h5 class="mb-3">Inbox</h5>
+        <div class="admin-card" id="messagesInbox">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Inbox</h5>
+                <span class="badge bg-secondary" id="messagesCount"><?= count($messages) ?></span>
+            </div>
+
             <?php if (empty($messages)): ?>
-            <p class="text-muted">No messages yet.</p>
+            <p class="text-muted mb-0">No messages yet.</p>
             <?php else: ?>
-            <div class="list-group list-group-flush">
+            <div class="messages-toolbar mb-3">
+                <div class="input-group input-group-sm mb-2">
+                    <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="search" id="messagesSearch" class="form-control" placeholder="Search name, email, topic, message..." autocomplete="off">
+                </div>
+                <select id="messagesSort" class="form-select form-select-sm" aria-label="Sort messages">
+                    <option value="date-desc">Newest first</option>
+                    <option value="date-asc">Oldest first</option>
+                    <option value="subject-asc">Subject A–Z</option>
+                    <option value="subject-desc">Subject Z–A</option>
+                </select>
+            </div>
+
+            <div class="list-group list-group-flush" id="messagesList">
                 <?php foreach ($messages as $msg): ?>
-                <a href="<?= adminUrl('page=messages&view=' . $msg['id']) ?>" class="list-group-item list-group-item-action <?= ($viewMessage['id'] ?? 0) == $msg['id'] ? 'active' : '' ?>">
-                    <div class="d-flex justify-content-between">
-                        <strong><?= e($msg['name']) ?></strong>
-                        <?php if (!$msg['is_read']): ?><span class="badge bg-danger">New</span><?php endif; ?>
-                    </div>
-                    <small><?= e(truncate($msg['subject'] ?: ($msg['topic'] ? contactTopicLabel($msg['topic'], $services ?? []) : $msg['message']), 50)) ?></small>
-                    <small class="d-block text-muted"><?= formatDate($msg['created_at'], 'd M Y H:i') ?></small>
-                </a>
+                <?php
+                $displaySubject = messageDisplaySubject($msg, $services ?? []);
+                $searchText = strtolower(implode(' ', array_filter([
+                    $msg['name'] ?? '',
+                    $msg['email'] ?? '',
+                    $msg['phone'] ?? '',
+                    $displaySubject,
+                    $msg['message'] ?? '',
+                ])));
+                ?>
+                <div class="message-inbox-row <?= ($viewMessage['id'] ?? 0) == $msg['id'] ? 'is-active' : '' ?>"
+                     data-subject="<?= e(strtolower($displaySubject)) ?>"
+                     data-date="<?= (int) strtotime($msg['created_at']) ?>"
+                     data-search="<?= e($searchText) ?>">
+                    <a href="<?= adminUrl('page=messages&view=' . $msg['id']) ?>" class="list-group-item list-group-item-action message-inbox-link">
+                        <div class="d-flex justify-content-between align-items-start gap-2">
+                            <strong class="message-inbox-name"><?= e($msg['name']) ?></strong>
+                            <?php if (!$msg['is_read']): ?><span class="badge bg-danger flex-shrink-0">New</span><?php endif; ?>
+                        </div>
+                        <small class="message-inbox-subject d-block"><?= e(truncate($displaySubject, 50)) ?></small>
+                        <small class="d-block text-muted message-inbox-date"><?= formatDate($msg['created_at'], 'd M Y H:i') ?></small>
+                    </a>
+                    <a href="<?= adminUrl('page=messages&action=delete&id=' . $msg['id'] . '&csrf_token=' . csrfToken()) ?>"
+                       class="message-inbox-delete btn btn-sm btn-outline-danger"
+                       title="Delete message"
+                       data-confirm="Delete this message and all replies?">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </a>
+                </div>
                 <?php endforeach; ?>
             </div>
+            <p class="text-muted small mt-3 mb-0 d-none" id="messagesNoResults">No messages match your search.</p>
             <?php endif; ?>
         </div>
     </div>
@@ -24,11 +63,17 @@
         <div class="admin-card">
             <?php if ($viewMessage): ?>
             <?php
-            $messageTitle = $viewMessage['subject']
-                ?: (!empty($viewMessage['topic']) ? contactTopicLabel($viewMessage['topic'], $services ?? []) : 'Consultation Request');
+            $messageTitle = messageDisplaySubject($viewMessage, $services ?? []);
             $replySubject = 'Re: ' . $messageTitle;
             ?>
-            <h5 class="mb-3"><?= e($messageTitle) ?></h5>
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                <h5 class="mb-0"><?= e($messageTitle) ?></h5>
+                <a href="<?= adminUrl('page=messages&action=delete&id=' . $viewMessage['id'] . '&csrf_token=' . csrfToken()) ?>"
+                   class="btn btn-sm btn-outline-danger flex-shrink-0"
+                   data-confirm="Delete this message and all replies?">
+                    <i class="fa-solid fa-trash-can me-1"></i>Delete
+                </a>
+            </div>
             <dl class="row mb-4">
                 <dt class="col-sm-3">From</dt><dd class="col-sm-9"><?= e($viewMessage['name']) ?> &lt;<?= e($viewMessage['email']) ?>&gt;</dd>
                 <?php if (!empty($viewMessage['topic'])): ?>

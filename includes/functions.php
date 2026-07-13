@@ -319,3 +319,15 @@ function contactTopicLabel(string $topic, array $services = []): string
 
     return ucwords(str_replace('-', ' ', $topic));
 }
+
+/** Display subject/topic line for a contact message. */
+function messageDisplaySubject(array $message, array $services = []): string
+{
+    if (!empty($message['subject'])) {
+        return $message['subject'];
+    }
+    if (!empty($message['topic'])) {
+        return contactTopicLabel($message['topic'], $services);
+    }
+    return 'Consultation Request';
+}

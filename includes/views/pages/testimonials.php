@@ -1,13 +1,14 @@
+<?php $page = getPageContent('testimonials'); ?>
 <section class="page-hero">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?= url() ?>">Home</a></li>
-                <li class="breadcrumb-item active">Case Studies</li>
+                <li class="breadcrumb-item active"><?= e($page['breadcrumb_label'] ?? 'Case Studies') ?></li>
             </ol>
         </nav>
-        <h1 data-aos="fade-up">Case Studies & Testimonials</h1>
-        <p class="lead" data-aos="fade-up" data-aos-delay="100">Measurable outcomes from radiation equipment projects we have delivered worldwide.</p>
+        <h1 data-aos="fade-up"><?= e($page['hero_title'] ?? 'Case Studies & Testimonials') ?></h1>
+        <p class="lead" data-aos="fade-up" data-aos-delay="100"><?= e($page['hero_subtitle'] ?? '') ?></p>
     </div>
 </section>
 
@@ -33,9 +34,16 @@
     </div>
 </section>
 
+<?php if (!empty($page['cta_title'])): ?>
 <section class="cta-section py-5">
     <div class="container text-center">
-        <h2 class="text-white mb-3">Ready to Achieve Similar Results?</h2>
-        <a href="<?= url('contact') ?>" class="btn btn-light btn-lg rounded-pill px-5">Start Your Project</a>
+        <h2 class="text-white mb-3"><?= e($page['cta_title']) ?></h2>
+        <?php if (!empty($page['cta_subtitle'])): ?>
+        <p class="text-white-50 mb-4"><?= e($page['cta_subtitle']) ?></p>
+        <?php endif; ?>
+        <?php if (!empty($page['cta_button_text'])): ?>
+        <a href="<?= linkUrl($page['cta_button_url'] ?? 'contact') ?>" class="btn btn-light btn-lg rounded-pill px-5"><?= e($page['cta_button_text']) ?></a>
+        <?php endif; ?>
     </div>
 </section>
+<?php endif; ?>

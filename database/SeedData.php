@@ -28,6 +28,7 @@ class SeedData
             self::seedTestimonials($pdo);
             self::seedFaqs($pdo);
             self::seedSeo($pdo);
+            self::seedPageContent($pdo);
 
             $pdo->commit();
         } catch (Throwable $e) {
@@ -146,7 +147,16 @@ HTML;
                 'content' => '<p>We bring decades of hands-on experience across radiotherapy, diagnostic radiology, and nuclear medicine. Our independent consultancy helps you deliver safe, compliant, and clinically effective radiation programmes without manufacturer bias.</p>',
                 'button_text' => 'Request a Consultation',
                 'button_url' => '/contact',
-                'extra_data' => null,
+                'extra_data' => json_encode([
+                    'badge' => 'Radiation Equipment Consultancy',
+                    'button2_text' => 'Explore Services',
+                    'button2_url' => '/services',
+                    'stats' => [
+                        ['value' => '30+', 'label' => 'Years Combined Experience'],
+                        ['value' => '11', 'label' => 'Specialist Service Areas'],
+                        ['value' => 'Global', 'label' => 'Project Delivery'],
+                    ],
+                ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'sort_order' => 1,
             ],
             [
@@ -156,7 +166,31 @@ HTML;
                 'content' => '<p>Radiation Equipment Consultancy is a specialist team of medical physicists, biomedical engineers, and radiation safety professionals. We support facilities from pre-purchase planning through installation, commissioning, staff training, and ongoing quality assurance — always putting patient safety and regulatory compliance first.</p>',
                 'button_text' => 'Learn About Us',
                 'button_url' => '/about',
-                'extra_data' => null,
+                'extra_data' => json_encode([
+                    'section_label' => 'About Us',
+                    'features' => [
+                        [
+                            'icon' => 'fa-shield-halved',
+                            'title' => 'Safety First',
+                            'description' => 'Every engagement anchored in radiation safety and patient protection.',
+                        ],
+                        [
+                            'icon' => 'fa-scale-balanced',
+                            'title' => 'Regulatory Expertise',
+                            'description' => 'Deep knowledge of local and international regulatory frameworks.',
+                        ],
+                        [
+                            'icon' => 'fa-microscope',
+                            'title' => 'Technical Authority',
+                            'description' => 'Hands-on experience with complex radiation equipment worldwide.',
+                        ],
+                        [
+                            'icon' => 'fa-handshake',
+                            'title' => 'Client Partnership',
+                            'description' => 'We become your trusted advisor, not just a contractor.',
+                        ],
+                    ],
+                ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'sort_order' => 2,
             ],
             [
@@ -166,7 +200,7 @@ HTML;
                 'content' => '<p>Whether you are installing a new linac, commissioning a CT scanner, or decommissioning legacy equipment, we provide structured, evidence-based consultancy aligned with international standards and local regulatory requirements.</p>',
                 'button_text' => 'View All Services',
                 'button_url' => '/services',
-                'extra_data' => null,
+                'extra_data' => json_encode(['section_label' => 'Our Services'], JSON_UNESCAPED_UNICODE),
                 'sort_order' => 3,
             ],
             [
@@ -174,9 +208,9 @@ HTML;
                 'title' => 'Equipment Expertise Across Modalities',
                 'subtitle' => 'Deep technical knowledge spanning radiotherapy, diagnostic radiology, and nuclear medicine.',
                 'content' => '<p>We work with the full spectrum of radiation-producing equipment — from linear accelerators and Gamma Knife systems to PET-CT scanners and gamma cameras. Our team understands manufacturer specifications, clinical workflows, and the practical realities of hospital implementation.</p>',
-                'button_text' => 'Explore Equipment',
+                'button_text' => 'View All Equipment',
                 'button_url' => '/equipment',
-                'extra_data' => null,
+                'extra_data' => json_encode(['section_label' => 'Equipment Expertise'], JSON_UNESCAPED_UNICODE),
                 'sort_order' => 4,
             ],
             [
@@ -187,6 +221,7 @@ HTML;
                 'button_text' => null,
                 'button_url' => null,
                 'extra_data' => json_encode([
+                    'section_label' => 'Why Choose Us',
                     'items' => [
                         [
                             'icon' => 'fa-shield-halved',
@@ -225,6 +260,7 @@ HTML;
                 'button_text' => null,
                 'button_url' => null,
                 'extra_data' => json_encode([
+                    'section_label' => 'Our Process',
                     'items' => [
                         [
                             'icon' => 'fa-comments',
@@ -256,6 +292,26 @@ HTML;
                 'sort_order' => 6,
             ],
             [
+                'section_key' => 'testimonials_intro',
+                'title' => 'What Our Clients Say',
+                'subtitle' => 'Measurable outcomes from radiation equipment projects worldwide.',
+                'content' => null,
+                'button_text' => 'View Case Studies',
+                'button_url' => '/testimonials',
+                'extra_data' => json_encode(['section_label' => 'Client Success'], JSON_UNESCAPED_UNICODE),
+                'sort_order' => 7,
+            ],
+            [
+                'section_key' => 'blog_intro',
+                'title' => 'Latest Insights',
+                'subtitle' => 'Technical guides, industry insights, and regulatory updates.',
+                'content' => null,
+                'button_text' => 'View All Resources',
+                'button_url' => '/blog',
+                'extra_data' => json_encode(['section_label' => 'Resources'], JSON_UNESCAPED_UNICODE),
+                'sort_order' => 8,
+            ],
+            [
                 'section_key' => 'cta',
                 'title' => 'Ready to Discuss Your Project?',
                 'subtitle' => 'We respond to all enquiries within 24 hours on business days.',
@@ -263,7 +319,7 @@ HTML;
                 'button_text' => 'Get in Touch',
                 'button_url' => '/contact',
                 'extra_data' => null,
-                'sort_order' => 7,
+                'sort_order' => 9,
             ],
         ];
 
@@ -302,35 +358,38 @@ HTML;
                 'section_key' => 'intro',
                 'title' => 'About Radiation Equipment Consultancy',
                 'content' => '<p>Radiation Equipment Consultancy is an independent advisory practice specialising in radiation-producing medical equipment. We support hospitals, cancer centres, diagnostic imaging departments, and nuclear medicine facilities at every stage of the equipment lifecycle — from strategic planning and vendor selection through installation, commissioning, staff training, and long-term quality assurance.</p><p>Founded by experienced medical physicists and biomedical engineers, we formed our practice to fill a gap we saw repeatedly in the field: facilities needed impartial, deeply technical guidance that was not tied to any equipment manufacturer or reseller. Today we work with clients across Europe, the Middle East, Africa, and Asia-Pacific, bringing the same rigorous standards and collaborative approach to every engagement.</p><p>Our mission is straightforward — we help healthcare organisations deploy and maintain radiation equipment safely, compliantly, and clinically effectively, so clinical teams can focus on what matters most: patient care.</p>',
-                'extra_data' => null,
+                'extra_data' => json_encode([
+                    'section_label' => 'Who We Are',
+                    'image_caption' => 'Independent radiation equipment specialists',
+                ], JSON_UNESCAPED_UNICODE),
                 'sort_order' => 1,
             ],
             [
                 'section_key' => 'qualifications',
                 'title' => 'Our Qualifications',
                 'content' => '<p>Our consultancy team holds advanced qualifications in medical physics, biomedical engineering, and radiation protection. Senior consultants are registered with recognised professional bodies and maintain active continuing professional development in line with evolving standards.</p><p>Collectively, we bring experience spanning:</p><ul><li>External beam radiotherapy — photon and electron linacs, stereotactic systems, and proton therapy</li><li>Diagnostic imaging — CT, digital radiography, mammography, and fluoroscopy</li><li>Nuclear medicine — gamma cameras, SPECT, and PET-CT systems</li><li>Radiation safety programme design and regulatory liaison</li><li>Clinical dosimetry, QA protocol development, and acceptance testing</li></ul><p>We have led commissioning programmes for greenfield cancer centres, supported major hospital refurbishments, and advised on equipment selection for facilities investing in their first radiation therapy or molecular imaging capabilities.</p>',
-                'extra_data' => null,
+                'extra_data' => json_encode(['section_label' => 'Expertise'], JSON_UNESCAPED_UNICODE),
                 'sort_order' => 2,
             ],
             [
                 'section_key' => 'certifications',
                 'title' => 'Certifications & Professional Standards',
                 'content' => '<p>We align our work with internationally recognised standards and guidelines, including IAEA safety standards, AAPM Task Group reports, IEC equipment standards, and manufacturer-specific acceptance protocols. Our consultants hold or have held certifications relevant to their areas of practice.</p><ul><li>Registration with national medical physics and engineering professional bodies</li><li>Radiation protection supervisor and RPA-equivalent qualifications</li><li>Manufacturer-authorised training on major linac, CT, and nuclear medicine platforms</li><li>ISO 9001-aligned quality management practices for documentation and traceability</li><li>Regular participation in professional conferences and standards committee review</li></ul><p>We maintain comprehensive professional indemnity insurance and operate under clear conflict-of-interest policies. We do not accept commissions from equipment vendors, ensuring our recommendations remain fully independent.</p>',
-                'extra_data' => null,
+                'extra_data' => json_encode(['section_label' => 'Credentials'], JSON_UNESCAPED_UNICODE),
                 'sort_order' => 3,
             ],
             [
                 'section_key' => 'safety_philosophy',
                 'title' => 'Our Safety Philosophy',
                 'content' => '<p>At Radiation Equipment Consultancy, safety is not a checkbox at the end of a project — it is the foundation of everything we do. Radiation equipment has the potential to deliver life-saving treatment and diagnosis, but only when installed, commissioned, and operated within strict safety and quality parameters.</p><p>Our safety philosophy rests on three principles:</p><p><strong>Prevention through design.</strong> We review shielding calculations, room layouts, interlocks, and workflow design early in every project so that safety is engineered in, not patched on later.</p><p><strong>Evidence-based verification.</strong> We apply rigorous acceptance testing, dosimetry checks, and documentation at commissioning to confirm equipment performs as specified before clinical use begins.</p><p><strong>Culture of continuous improvement.</strong> We train staff not just to operate equipment, but to understand the safety rationale behind procedures, empowering teams to identify and escalate concerns proactively.</p><p>We believe that regulatory compliance and clinical excellence are two sides of the same coin. When safety is done right, facilities pass inspections naturally and clinicians gain confidence in their technology.</p>',
-                'extra_data' => null,
+                'extra_data' => json_encode(['section_label' => 'Our Philosophy'], JSON_UNESCAPED_UNICODE),
                 'sort_order' => 4,
             ],
             [
                 'section_key' => 'team',
                 'title' => 'Our Team',
                 'content' => '<p>We are built around a core team of senior consultants, each bringing 15–25 years of field experience across multiple equipment platforms and healthcare settings. We supplement our permanent team with specialist associates for large-scale or multi-site projects, ensuring the right expertise is always on site.</p><p>Our team structure includes:</p><ul><li><strong>Senior Medical Physicists</strong> — leading radiotherapy commissioning, dosimetry, and QA programme design</li><li><strong>Biomedical Engineers</strong> — overseeing installation coordination, acceptance testing, and preventive maintenance planning</li><li><strong>Radiation Safety Specialists</strong> — managing regulatory documentation, shielding review, and compliance audits</li><li><strong>Clinical Training Coordinators</strong> — developing and delivering tailored staff training programmes</li><li><strong>Project Managers</strong> — coordinating multi-disciplinary equipment projects from planning through handover</li></ul><p>We pride ourselves on being approachable, responsive, and genuinely invested in our clients\' success. When you work with MedRad, you get direct access to senior consultants — not junior staff learning on your project.</p>',
-                'extra_data' => null,
+                'extra_data' => json_encode(['section_label' => 'Our Team'], JSON_UNESCAPED_UNICODE),
                 'sort_order' => 5,
             ],
         ];
@@ -1030,6 +1089,12 @@ HTML;
                 'Terms governing your use of the Radiation Equipment Consultancy website and informational content.',
                 'terms of use, website terms, radiation equipment consultancy',
             ],
+            [
+                'testimonials',
+                'Case Studies & Testimonials | Radiation Equipment Consultancy',
+                'Client success stories from radiation equipment projects worldwide.',
+                'case studies, testimonials, radiation equipment consultancy',
+            ],
         ];
 
         $stmt = $pdo->prepare(
@@ -1044,5 +1109,239 @@ HTML;
         foreach ($entries as $entry) {
             $stmt->execute($entry);
         }
+    }
+
+    /**
+     * Seed / refresh page heroes and CTAs for all public pages.
+     * Also used by migrate_page_content.php
+     */
+    public static function seedPageContent(PDO $pdo): void
+    {
+        if (!self::tableExists($pdo, 'page_content')) {
+            throw new RuntimeException('page_content table missing. Run migrate_page_content.php first.');
+        }
+
+        $pages = [
+            [
+                'page_key' => 'about',
+                'hero_title' => '', // uses site_name dynamically when empty
+                'hero_subtitle' => '', // uses tagline when empty
+                'breadcrumb_label' => 'About Us',
+                'cta_title' => 'Partner With Us on Your Next Project',
+                'cta_subtitle' => 'We bring the technical depth and regulatory knowledge your facility needs.',
+                'cta_button_text' => 'Request a Consultation',
+                'cta_button_url' => '/contact',
+                'extra_data' => null,
+            ],
+            [
+                'page_key' => 'services',
+                'hero_title' => 'Our Consultancy Services',
+                'hero_subtitle' => 'End-to-end support for radiation equipment — from planning and installation to commissioning, training, and ongoing compliance.',
+                'breadcrumb_label' => 'Services',
+                'cta_title' => 'Not Sure Which Service You Need?',
+                'cta_subtitle' => 'We will help you define scope and deliver a tailored proposal.',
+                'cta_button_text' => 'Speak With Our Team',
+                'cta_button_url' => '/contact',
+                'extra_data' => null,
+            ],
+            [
+                'page_key' => 'equipment',
+                'hero_title' => 'Equipment Expertise',
+                'hero_subtitle' => 'We provide hands-on consultancy across radiotherapy, diagnostic radiology, and nuclear medicine modalities worldwide.',
+                'breadcrumb_label' => 'Equipment Expertise',
+                'cta_title' => 'Need Support With Your Equipment?',
+                'cta_subtitle' => 'We support installations, commissioning, and compliance across all listed modalities.',
+                'cta_button_text' => 'Discuss Your Project',
+                'cta_button_url' => '/contact',
+                'extra_data' => null,
+            ],
+            [
+                'page_key' => 'testimonials',
+                'hero_title' => 'Case Studies & Testimonials',
+                'hero_subtitle' => 'Measurable outcomes from radiation equipment projects we have delivered worldwide.',
+                'breadcrumb_label' => 'Case Studies',
+                'cta_title' => 'Ready to Achieve Similar Results?',
+                'cta_subtitle' => '',
+                'cta_button_text' => 'Start Your Project',
+                'cta_button_url' => '/contact',
+                'extra_data' => null,
+            ],
+            [
+                'page_key' => 'blog',
+                'hero_title' => 'Resources & Insights',
+                'hero_subtitle' => 'Technical guides, industry insights, and regulatory updates from our consultancy team.',
+                'breadcrumb_label' => 'Resources',
+                'cta_title' => '',
+                'cta_subtitle' => '',
+                'cta_button_text' => '',
+                'cta_button_url' => '',
+                'extra_data' => json_encode([
+                    'empty_message' => 'New articles will be published soon. Check back for expert insights on radiation equipment.',
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+            [
+                'page_key' => 'faq',
+                'hero_title' => 'Frequently Asked Questions',
+                'hero_subtitle' => 'Answers to common questions about our radiation equipment consultancy services, process, and how we work with healthcare facilities.',
+                'breadcrumb_label' => 'FAQ',
+                'cta_title' => 'Still have a question?',
+                'cta_subtitle' => 'Our team is ready to discuss your radiation equipment project.',
+                'cta_button_text' => 'Contact Us',
+                'cta_button_url' => '/contact',
+                'extra_data' => null,
+            ],
+            [
+                'page_key' => 'contact',
+                'hero_title' => 'Contact Us',
+                'hero_subtitle' => '', // uses response_time setting when empty
+                'breadcrumb_label' => 'Contact',
+                'cta_title' => '',
+                'cta_subtitle' => '',
+                'cta_button_text' => '',
+                'cta_button_url' => '',
+                'extra_data' => json_encode([
+                    'sidebar_title' => 'Get in Touch',
+                    'form_title' => 'Send Us a Message',
+                    'faq_button_text' => 'View Frequently Asked Questions',
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+            [
+                'page_key' => 'service_detail',
+                'hero_title' => '',
+                'hero_subtitle' => '',
+                'breadcrumb_label' => 'Services',
+                'cta_title' => 'Request a Consultation',
+                'cta_subtitle' => 'We will respond within one business day with practical next steps for your project.',
+                'cta_button_text' => 'Get in Touch',
+                'cta_button_url' => '/contact',
+                'extra_data' => json_encode([
+                    'overview_heading' => 'Overview',
+                    'challenge_heading' => 'The Challenge',
+                    'approach_heading' => 'Our Approach',
+                    'deliverables_heading' => 'Deliverables',
+                    'benefits_heading' => 'Benefits for Your Facility',
+                    'related_heading' => 'Related Services',
+                ], JSON_UNESCAPED_UNICODE),
+            ],
+        ];
+
+        $stmt = $pdo->prepare(
+            'INSERT INTO page_content
+                (page_key, hero_title, hero_subtitle, breadcrumb_label, cta_title, cta_subtitle, cta_button_text, cta_button_url, extra_data)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+                hero_title = VALUES(hero_title),
+                hero_subtitle = VALUES(hero_subtitle),
+                breadcrumb_label = VALUES(breadcrumb_label),
+                cta_title = VALUES(cta_title),
+                cta_subtitle = VALUES(cta_subtitle),
+                cta_button_text = VALUES(cta_button_text),
+                cta_button_url = VALUES(cta_button_url),
+                extra_data = VALUES(extra_data)'
+        );
+
+        foreach ($pages as $page) {
+            $stmt->execute([
+                $page['page_key'],
+                $page['hero_title'],
+                $page['hero_subtitle'],
+                $page['breadcrumb_label'],
+                $page['cta_title'],
+                $page['cta_subtitle'],
+                $page['cta_button_text'],
+                $page['cta_button_url'],
+                $page['extra_data'],
+            ]);
+        }
+    }
+
+    /**
+     * Refresh homepage hero/about extras without wiping custom titles.
+     * Used by migrate_page_content.php for existing installs.
+     */
+    public static function seedHomepageExtras(PDO $pdo): void
+    {
+        if (!self::tableExists($pdo, 'homepage')) {
+            return;
+        }
+
+        $updates = [
+            'hero' => [
+                'badge' => 'Radiation Equipment Consultancy',
+                'button2_text' => 'Explore Services',
+                'button2_url' => '/services',
+                'stats' => [
+                    ['value' => '30+', 'label' => 'Years Combined Experience'],
+                    ['value' => '11', 'label' => 'Specialist Service Areas'],
+                    ['value' => 'Global', 'label' => 'Project Delivery'],
+                ],
+            ],
+            'about_preview' => [
+                'section_label' => 'About Us',
+                'features' => [
+                    ['icon' => 'fa-shield-halved', 'title' => 'Safety First', 'description' => 'Every engagement anchored in radiation safety and patient protection.'],
+                    ['icon' => 'fa-scale-balanced', 'title' => 'Regulatory Expertise', 'description' => 'Deep knowledge of local and international regulatory frameworks.'],
+                    ['icon' => 'fa-microscope', 'title' => 'Technical Authority', 'description' => 'Hands-on experience with complex radiation equipment worldwide.'],
+                    ['icon' => 'fa-handshake', 'title' => 'Client Partnership', 'description' => 'We become your trusted advisor, not just a contractor.'],
+                ],
+            ],
+            'services_intro' => ['section_label' => 'Our Services'],
+            'equipment_intro' => ['section_label' => 'Equipment Expertise'],
+            'why_choose_us' => ['section_label' => 'Why Choose Us'],
+            'process' => ['section_label' => 'Our Process'],
+        ];
+
+        $get = $pdo->prepare('SELECT extra_data FROM homepage WHERE section_key = ?');
+        $set = $pdo->prepare('UPDATE homepage SET extra_data = ? WHERE section_key = ?');
+
+        foreach ($updates as $key => $defaults) {
+            $get->execute([$key]);
+            $row = $get->fetch();
+            if (!$row) {
+                continue;
+            }
+            $existing = [];
+            if (!empty($row['extra_data'])) {
+                $decoded = json_decode($row['extra_data'], true);
+                if (is_array($decoded)) {
+                    $existing = $decoded;
+                }
+            }
+            // Only fill missing keys — preserve admin edits
+            foreach ($defaults as $field => $value) {
+                if (!array_key_exists($field, $existing) || $existing[$field] === null || $existing[$field] === '') {
+                    $existing[$field] = $value;
+                }
+            }
+            // For why_choose / process keep items if present
+            $set->execute([json_encode($existing, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), $key]);
+        }
+
+        // Ensure testimonials_intro and blog_intro sections exist
+        $stmt = $pdo->prepare(
+            'INSERT INTO homepage (section_key, title, subtitle, content, button_text, button_url, extra_data, sort_order, is_active)
+             VALUES (?, ?, ?, NULL, ?, ?, ?, ?, 1)
+             ON DUPLICATE KEY UPDATE title = VALUES(title)'
+        );
+        $stmt->execute([
+            'testimonials_intro',
+            'What Our Clients Say',
+            'Measurable outcomes from radiation equipment projects worldwide.',
+            'View Case Studies',
+            '/testimonials',
+            json_encode(['section_label' => 'Client Success'], JSON_UNESCAPED_UNICODE),
+            7,
+        ]);
+        $stmt->execute([
+            'blog_intro',
+            'Latest Insights',
+            'Technical guides, industry insights, and regulatory updates.',
+            'View All Resources',
+            '/blog',
+            json_encode(['section_label' => 'Resources'], JSON_UNESCAPED_UNICODE),
+            8,
+        ]);
+
+        $pdo->exec("UPDATE homepage SET sort_order = 9 WHERE section_key = 'cta'");
     }
 }

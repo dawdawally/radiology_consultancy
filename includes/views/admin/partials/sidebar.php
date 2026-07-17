@@ -3,6 +3,7 @@ $currentPage = $_GET['page'] ?? 'dashboard';
 $navItems = [
     ['page' => 'dashboard', 'icon' => 'fa-gauge-high', 'label' => 'Dashboard'],
     ['page' => 'homepage', 'icon' => 'fa-house', 'label' => 'Homepage'],
+    ['page' => 'pages', 'icon' => 'fa-file-lines', 'label' => 'Pages'],
     ['page' => 'about', 'icon' => 'fa-user-group', 'label' => 'About'],
     ['page' => 'services', 'icon' => 'fa-briefcase-medical', 'label' => 'Services'],
     ['page' => 'equipment', 'icon' => 'fa-microscope', 'label' => 'Equipment'],

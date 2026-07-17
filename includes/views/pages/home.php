@@ -5,11 +5,23 @@ $servicesIntro = $sections['services_intro'] ?? [];
 $equipmentIntro = $sections['equipment_intro'] ?? [];
 $whyChoose = $sections['why_choose_us'] ?? [];
 $process = $sections['process'] ?? [];
+$testimonialsIntro = $sections['testimonials_intro'] ?? [];
+$blogIntro = $sections['blog_intro'] ?? [];
 $cta = $sections['cta'] ?? [];
-$whyItems = parseJsonField($whyChoose['extra_data'] ?? null);
-$whyItems = $whyItems['items'] ?? $whyItems;
-$processItems = parseJsonField($process['extra_data'] ?? null);
-$processItems = $processItems['items'] ?? $processItems;
+
+$heroExtra = sectionExtra($hero);
+$aboutExtra = sectionExtra($aboutPreview);
+$servicesExtra = sectionExtra($servicesIntro);
+$equipmentExtra = sectionExtra($equipmentIntro);
+$whyExtra = sectionExtra($whyChoose);
+$processExtra = sectionExtra($process);
+$testimonialsExtra = sectionExtra($testimonialsIntro);
+$blogExtra = sectionExtra($blogIntro);
+
+$stats = $heroExtra['stats'] ?? [];
+$features = $aboutExtra['features'] ?? [];
+$whyItems = $whyExtra['items'] ?? [];
+$processItems = $processExtra['items'] ?? [];
 ?>
 
 <section class="hero-section">
@@ -17,22 +29,28 @@ $processItems = $processItems['items'] ?? $processItems;
     <div class="container position-relative">
         <div class="row align-items-center min-vh-75">
             <div class="col-lg-7" data-aos="fade-up">
-                <span class="hero-badge">Radiation Equipment Consultancy</span>
+                <?php if (!empty($heroExtra['badge'])): ?>
+                <span class="hero-badge"><?= e($heroExtra['badge']) ?></span>
+                <?php endif; ?>
                 <h1 class="hero-title"><?= e($hero['title'] ?? '') ?></h1>
                 <p class="hero-subtitle"><?= e($hero['subtitle'] ?? '') ?></p>
                 <div class="hero-content text-white-50 mb-4"><?= $hero['content'] ?? '' ?></div>
                 <?php if (!empty($hero['button_text'])): ?>
                 <a href="<?= linkUrl($hero['button_url']) ?>" class="btn btn-light btn-lg rounded-pill px-4 me-2"><?= e($hero['button_text']) ?></a>
                 <?php endif; ?>
-                <a href="<?= url('services') ?>" class="btn btn-outline-light btn-lg rounded-pill px-4">Explore Services</a>
+                <?php if (!empty($heroExtra['button2_text'])): ?>
+                <a href="<?= linkUrl($heroExtra['button2_url'] ?? 'services') ?>" class="btn btn-outline-light btn-lg rounded-pill px-4"><?= e($heroExtra['button2_text']) ?></a>
+                <?php endif; ?>
             </div>
+            <?php if (!empty($stats)): ?>
             <div class="col-lg-5 d-none d-lg-block" data-aos="fade-left">
                 <div class="hero-stats-card">
-                    <div class="stat-item"><strong>30+</strong><span>Years Combined Experience</span></div>
-                    <div class="stat-item"><strong>11</strong><span>Specialist Service Areas</span></div>
-                    <div class="stat-item"><strong>Global</strong><span>Project Delivery</span></div>
+                    <?php foreach ($stats as $stat): ?>
+                    <div class="stat-item"><strong><?= e($stat['value'] ?? '') ?></strong><span><?= e($stat['label'] ?? '') ?></span></div>
+                    <?php endforeach; ?>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -41,7 +59,7 @@ $processItems = $processItems['items'] ?? $processItems;
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-6" data-aos="fade-right">
-                <span class="section-label">About Us</span>
+                <?php if (!empty($aboutExtra['section_label'])): ?><span class="section-label"><?= e($aboutExtra['section_label']) ?></span><?php endif; ?>
                 <h2 class="section-title"><?= e($aboutPreview['title'] ?? '') ?></h2>
                 <p class="text-muted lead"><?= e($aboutPreview['subtitle'] ?? '') ?></p>
                 <div class="text-secondary"><?= $aboutPreview['content'] ?? '' ?></div>
@@ -49,14 +67,19 @@ $processItems = $processItems['items'] ?? $processItems;
                 <a href="<?= linkUrl($aboutPreview['button_url']) ?>" class="btn btn-primary rounded-pill mt-3"><?= e($aboutPreview['button_text']) ?></a>
                 <?php endif; ?>
             </div>
+            <?php if (!empty($features)): ?>
             <div class="col-lg-6" data-aos="fade-left">
                 <div class="feature-grid">
-                    <div class="feature-box"><i class="fa-solid fa-shield-halved"></i><h5>Safety First</h5><p>Every engagement anchored in radiation safety and patient protection.</p></div>
-                    <div class="feature-box"><i class="fa-solid fa-scale-balanced"></i><h5>Regulatory Expertise</h5><p>Deep knowledge of local and international regulatory frameworks.</p></div>
-                    <div class="feature-box"><i class="fa-solid fa-microscope"></i><h5>Technical Authority</h5><p>Hands-on experience with complex radiation equipment worldwide.</p></div>
-                    <div class="feature-box"><i class="fa-solid fa-handshake"></i><h5>Client Partnership</h5><p>We become your trusted advisor, not just a contractor.</p></div>
+                    <?php foreach ($features as $feature): ?>
+                    <div class="feature-box">
+                        <i class="fa-solid <?= e($feature['icon'] ?? 'fa-check') ?>"></i>
+                        <h5><?= e($feature['title'] ?? '') ?></h5>
+                        <p><?= e($feature['description'] ?? '') ?></p>
+                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -64,7 +87,7 @@ $processItems = $processItems['items'] ?? $processItems;
 <section class="section-padding bg-light">
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-            <span class="section-label">Our Services</span>
+            <?php if (!empty($servicesExtra['section_label'])): ?><span class="section-label"><?= e($servicesExtra['section_label']) ?></span><?php endif; ?>
             <h2 class="section-title"><?= e($servicesIntro['title'] ?? '') ?></h2>
             <p class="text-muted mx-auto section-lead"><?= e($servicesIntro['subtitle'] ?? '') ?></p>
         </div>
@@ -89,7 +112,7 @@ $processItems = $processItems['items'] ?? $processItems;
 <section class="section-padding bg-white">
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-            <span class="section-label">Equipment Expertise</span>
+            <?php if (!empty($equipmentExtra['section_label'])): ?><span class="section-label"><?= e($equipmentExtra['section_label']) ?></span><?php endif; ?>
             <h2 class="section-title"><?= e($equipmentIntro['title'] ?? '') ?></h2>
             <p class="text-muted mx-auto section-lead"><?= e($equipmentIntro['subtitle'] ?? '') ?></p>
         </div>
@@ -108,7 +131,7 @@ $processItems = $processItems['items'] ?? $processItems;
             <?php $catIndex++; endforeach; ?>
         </div>
         <div class="text-center mt-4">
-            <a href="<?= url('equipment') ?>" class="btn btn-primary rounded-pill px-4">View All Equipment</a>
+            <a href="<?= linkUrl($equipmentIntro['button_url'] ?? 'equipment') ?>" class="btn btn-primary rounded-pill px-4"><?= e($equipmentIntro['button_text'] ?? 'View All Equipment') ?></a>
         </div>
     </div>
 </section>
@@ -116,7 +139,7 @@ $processItems = $processItems['items'] ?? $processItems;
 <section class="section-padding bg-primary-soft">
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-            <span class="section-label">Why Choose Us</span>
+            <?php if (!empty($whyExtra['section_label'])): ?><span class="section-label"><?= e($whyExtra['section_label']) ?></span><?php endif; ?>
             <h2 class="section-title"><?= e($whyChoose['title'] ?? '') ?></h2>
             <p class="text-muted mx-auto section-lead"><?= e($whyChoose['subtitle'] ?? '') ?></p>
         </div>
@@ -137,7 +160,7 @@ $processItems = $processItems['items'] ?? $processItems;
 <section class="section-padding bg-white">
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-            <span class="section-label">Our Process</span>
+            <?php if (!empty($processExtra['section_label'])): ?><span class="section-label"><?= e($processExtra['section_label']) ?></span><?php endif; ?>
             <h2 class="section-title"><?= e($process['title'] ?? '') ?></h2>
             <p class="text-muted mx-auto section-lead"><?= e($process['subtitle'] ?? '') ?></p>
         </div>
@@ -159,8 +182,11 @@ $processItems = $processItems['items'] ?? $processItems;
 <section class="section-padding bg-light">
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-            <span class="section-label">Client Success</span>
-            <h2 class="section-title">What Our Clients Say</h2>
+            <?php if (!empty($testimonialsExtra['section_label'])): ?><span class="section-label"><?= e($testimonialsExtra['section_label']) ?></span><?php endif; ?>
+            <h2 class="section-title"><?= e($testimonialsIntro['title'] ?? 'What Our Clients Say') ?></h2>
+            <?php if (!empty($testimonialsIntro['subtitle'])): ?>
+            <p class="text-muted mx-auto section-lead"><?= e($testimonialsIntro['subtitle']) ?></p>
+            <?php endif; ?>
         </div>
         <div class="row g-4">
             <?php foreach ($testimonials as $i => $t): ?>
@@ -177,7 +203,9 @@ $processItems = $processItems['items'] ?? $processItems;
             </div>
             <?php endforeach; ?>
         </div>
-        <div class="text-center mt-4"><a href="<?= url('testimonials') ?>" class="btn btn-outline-primary rounded-pill">View Case Studies</a></div>
+        <?php if (!empty($testimonialsIntro['button_text'])): ?>
+        <div class="text-center mt-4"><a href="<?= linkUrl($testimonialsIntro['button_url'] ?? 'testimonials') ?>" class="btn btn-outline-primary rounded-pill"><?= e($testimonialsIntro['button_text']) ?></a></div>
+        <?php endif; ?>
     </div>
 </section>
 <?php endif; ?>
@@ -186,8 +214,11 @@ $processItems = $processItems['items'] ?? $processItems;
 <section class="section-padding bg-white">
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-            <span class="section-label">Resources</span>
-            <h2 class="section-title">Latest Insights</h2>
+            <?php if (!empty($blogExtra['section_label'])): ?><span class="section-label"><?= e($blogExtra['section_label']) ?></span><?php endif; ?>
+            <h2 class="section-title"><?= e($blogIntro['title'] ?? 'Latest Insights') ?></h2>
+            <?php if (!empty($blogIntro['subtitle'])): ?>
+            <p class="text-muted mx-auto section-lead"><?= e($blogIntro['subtitle']) ?></p>
+            <?php endif; ?>
         </div>
         <div class="row g-4">
             <?php foreach ($posts as $i => $post): ?>
@@ -203,6 +234,9 @@ $processItems = $processItems['items'] ?? $processItems;
             </div>
             <?php endforeach; ?>
         </div>
+        <?php if (!empty($blogIntro['button_text'])): ?>
+        <div class="text-center mt-4"><a href="<?= linkUrl($blogIntro['button_url'] ?? 'blog') ?>" class="btn btn-outline-primary rounded-pill"><?= e($blogIntro['button_text']) ?></a></div>
+        <?php endif; ?>
     </div>
 </section>
 <?php endif; ?>

@@ -11,6 +11,7 @@ class AdminController
         match ($page) {
             'dashboard', '' => $this->dashboard(),
             'homepage' => $this->homepage($action),
+            'pages' => $this->pages($action),
             'about' => $this->about($action),
             'services' => $this->services($action),
             'equipment' => $this->equipment($action),
@@ -48,13 +49,63 @@ class AdminController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'save') {
             $this->requireCsrf();
             $key = $_POST['section_key'] ?? '';
+            $existing = $model->getByKey($key);
+            $extra = parseJsonField($existing['extra_data'] ?? null);
+
+            if ($key === 'hero') {
+                $extra['badge'] = trim($_POST['badge'] ?? '');
+                $extra['button2_text'] = trim($_POST['button2_text'] ?? '');
+                $extra['button2_url'] = trim($_POST['button2_url'] ?? '');
+                $stats = [];
+                $values = $_POST['stat_value'] ?? [];
+                $labels = $_POST['stat_label'] ?? [];
+                foreach ($values as $i => $value) {
+                    $value = trim((string) $value);
+                    $label = trim((string) ($labels[$i] ?? ''));
+                    if ($value !== '' || $label !== '') {
+                        $stats[] = ['value' => $value, 'label' => $label];
+                    }
+                }
+                $extra['stats'] = $stats;
+            }
+
+            if (isset($_POST['section_label'])) {
+                $extra['section_label'] = trim($_POST['section_label']);
+            }
+
+            if ($key === 'about_preview') {
+                $features = [];
+                $icons = $_POST['feature_icon'] ?? [];
+                $titles = $_POST['feature_title'] ?? [];
+                $descriptions = $_POST['feature_description'] ?? [];
+                foreach ($titles as $i => $title) {
+                    $title = trim((string) $title);
+                    if ($title === '' && trim((string) ($descriptions[$i] ?? '')) === '') {
+                        continue;
+                    }
+                    $features[] = [
+                        'icon' => trim((string) ($icons[$i] ?? '')),
+                        'title' => $title,
+                        'description' => trim((string) ($descriptions[$i] ?? '')),
+                    ];
+                }
+                $extra['features'] = $features;
+            }
+
+            if (in_array($key, ['why_choose_us', 'process'], true) && isset($_POST['extra_data_items'])) {
+                $decoded = json_decode($_POST['extra_data_items'], true);
+                if (is_array($decoded)) {
+                    $extra['items'] = $decoded['items'] ?? $decoded;
+                }
+            }
+
             $model->updateSection($key, [
                 'title' => $_POST['title'] ?? '',
                 'subtitle' => $_POST['subtitle'] ?? '',
                 'content' => $_POST['content'] ?? '',
                 'button_text' => $_POST['button_text'] ?? '',
                 'button_url' => $_POST['button_url'] ?? '',
-                'extra_data' => $_POST['extra_data'] ?? null,
+                'extra_data' => json_encode($extra, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
                 'is_active' => isset($_POST['is_active']) ? 1 : 0,
             ]);
             logActivity('update', 'homepage', null, "Updated section: {$key}");
@@ -73,6 +124,59 @@ class AdminController
         ]);
     }
 
+    private function pages(string $action): void
+    {
+        $model = new PageContentModel();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'save') {
+            $this->requireCsrf();
+            $key = $_POST['page_key'] ?? '';
+            $existing = $model->getByKey($key);
+            $extra = parseJsonField($existing['extra_data'] ?? null);
+
+            if ($key === 'contact') {
+                $extra['sidebar_title'] = trim($_POST['sidebar_title'] ?? '');
+                $extra['form_title'] = trim($_POST['form_title'] ?? '');
+                $extra['faq_button_text'] = trim($_POST['faq_button_text'] ?? '');
+            }
+            if ($key === 'blog') {
+                $extra['empty_message'] = trim($_POST['empty_message'] ?? '');
+            }
+            if ($key === 'service_detail') {
+                $extra['overview_heading'] = trim($_POST['overview_heading'] ?? 'Overview');
+                $extra['challenge_heading'] = trim($_POST['challenge_heading'] ?? 'The Challenge');
+                $extra['approach_heading'] = trim($_POST['approach_heading'] ?? 'Our Approach');
+                $extra['deliverables_heading'] = trim($_POST['deliverables_heading'] ?? 'Deliverables');
+                $extra['benefits_heading'] = trim($_POST['benefits_heading'] ?? 'Benefits for Your Facility');
+                $extra['related_heading'] = trim($_POST['related_heading'] ?? 'Related Services');
+            }
+
+            $model->updatePage($key, [
+                'hero_title' => $_POST['hero_title'] ?? '',
+                'hero_subtitle' => $_POST['hero_subtitle'] ?? '',
+                'breadcrumb_label' => $_POST['breadcrumb_label'] ?? '',
+                'cta_title' => $_POST['cta_title'] ?? '',
+                'cta_subtitle' => $_POST['cta_subtitle'] ?? '',
+                'cta_button_text' => $_POST['cta_button_text'] ?? '',
+                'cta_button_url' => $_POST['cta_button_url'] ?? '',
+                'extra_data' => json_encode($extra, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            ]);
+            logActivity('update', 'page_content', null, "Updated page: {$key}");
+            setFlash('success', 'Page content updated.');
+            redirect(adminUrl('page=pages&edit=' . urlencode($key)));
+        }
+
+        $pages = $model->findAll('page_key ASC');
+        $editKey = $_GET['edit'] ?? ($pages[0]['page_key'] ?? null);
+        $editPage = $editKey ? $model->getByKey($editKey) : null;
+
+        renderAdmin('pages', [
+            'pageHeading' => 'Page Content',
+            'pages' => $pages,
+            'editPage' => $editPage,
+        ]);
+    }
+
     private function about(string $action): void
     {
         $model = new AboutModel();
@@ -80,9 +184,17 @@ class AdminController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'save') {
             $this->requireCsrf();
             $key = $_POST['section_key'] ?? '';
+            $sections = $model->getSections();
+            $existing = $sections[$key] ?? null;
+            $extra = parseJsonField($existing['extra_data'] ?? null);
+            $extra['section_label'] = trim($_POST['section_label'] ?? '');
+            if ($key === 'intro') {
+                $extra['image_caption'] = trim($_POST['image_caption'] ?? '');
+            }
             $model->updateSection($key, [
                 'title' => $_POST['title'] ?? '',
                 'content' => $_POST['content'] ?? '',
+                'extra_data' => json_encode($extra, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             ]);
             logActivity('update', 'about', null, "Updated section: {$key}");
             setFlash('success', 'About section updated.');
@@ -496,7 +608,7 @@ class AdminController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->requireCsrf();
-            $keys = ['site_name', 'tagline', 'phone', 'email', 'address', 'linkedin', 'response_time', 'footer_text', 'contact_intro', 'privacy_content', 'terms_content'];
+            $keys = ['site_name', 'tagline', 'phone', 'email', 'address', 'linkedin', 'response_time', 'footer_text', 'contact_intro', 'privacy_content', 'terms_content', 'logo_path'];
             foreach ($keys as $key) {
                 if (isset($_POST[$key])) {
                     $model->set($key, $_POST[$key]);

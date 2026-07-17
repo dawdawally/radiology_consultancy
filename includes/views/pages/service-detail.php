@@ -1,6 +1,9 @@
 <?php
 $approach = parseJsonField($service['approach'] ?? null);
 $deliverables = parseJsonField($service['deliverables'] ?? null);
+$page = getPageContent('service_detail');
+$extra = $page['extra'] ?? [];
+$related = array_slice(array_filter($relatedServices ?? [], static fn($s) => ($s['slug'] ?? '') !== ($service['slug'] ?? '')), 0, 3);
 ?>
 
 <section class="page-hero">
@@ -8,7 +11,7 @@ $deliverables = parseJsonField($service['deliverables'] ?? null);
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?= url() ?>">Home</a></li>
-                <li class="breadcrumb-item"><a href="<?= url('services') ?>">Services</a></li>
+                <li class="breadcrumb-item"><a href="<?= url('services') ?>"><?= e($page['breadcrumb_label'] ?? 'Services') ?></a></li>
                 <li class="breadcrumb-item active"><?= e($service['title']) ?></li>
             </ol>
         </nav>
@@ -25,17 +28,17 @@ $deliverables = parseJsonField($service['deliverables'] ?? null);
         <div class="row g-5">
             <div class="col-lg-8">
                 <div class="content-block mb-5" data-aos="fade-up">
-                    <h2>Overview</h2>
+                    <h2><?= e($extra['overview_heading'] ?? 'Overview') ?></h2>
                     <div class="text-secondary"><?= $service['intro'] ?? '' ?></div>
                 </div>
 
                 <div class="content-block mb-5" data-aos="fade-up">
-                    <h2>The Challenge</h2>
+                    <h2><?= e($extra['challenge_heading'] ?? 'The Challenge') ?></h2>
                     <div class="challenge-box"><?= $service['challenge'] ?? '' ?></div>
                 </div>
 
                 <div class="content-block mb-5" data-aos="fade-up">
-                    <h2>Our Approach</h2>
+                    <h2><?= e($extra['approach_heading'] ?? 'Our Approach') ?></h2>
                     <div class="approach-steps">
                         <?php foreach ($approach as $i => $step): ?>
                         <div class="approach-step">
@@ -51,7 +54,7 @@ $deliverables = parseJsonField($service['deliverables'] ?? null);
 
                 <?php if (!empty($deliverables)): ?>
                 <div class="content-block mb-5" data-aos="fade-up">
-                    <h2>Deliverables</h2>
+                    <h2><?= e($extra['deliverables_heading'] ?? 'Deliverables') ?></h2>
                     <ul class="deliverables-list">
                         <?php foreach ($deliverables as $item): ?>
                         <li><i class="fa-solid fa-circle-check text-primary me-2"></i><?= e(is_string($item) ? $item : ($item['title'] ?? '')) ?></li>
@@ -62,7 +65,7 @@ $deliverables = parseJsonField($service['deliverables'] ?? null);
 
                 <?php if (!empty($service['benefits'])): ?>
                 <div class="content-block" data-aos="fade-up">
-                    <h2>Benefits for Your Facility</h2>
+                    <h2><?= e($extra['benefits_heading'] ?? 'Benefits for Your Facility') ?></h2>
                     <div class="text-secondary"><?= $service['benefits'] ?? '' ?></div>
                 </div>
                 <?php endif; ?>
@@ -70,16 +73,18 @@ $deliverables = parseJsonField($service['deliverables'] ?? null);
 
             <div class="col-lg-4">
                 <div class="sidebar-card sticky-top" style="top: 100px;" data-aos="fade-left">
-                    <h4>Request a Consultation</h4>
-                    <p class="text-muted">We will respond within one business day with practical next steps for your project.</p>
-                    <a href="<?= url('contact') ?>?subject=<?= urlencode($service['title']) ?>" class="btn btn-primary w-100 rounded-pill mb-3">Get in Touch</a>
+                    <h4><?= e($page['cta_title'] ?? 'Request a Consultation') ?></h4>
+                    <p class="text-muted"><?= e($page['cta_subtitle'] ?? '') ?></p>
+                    <a href="<?= linkUrl(($page['cta_button_url'] ?? 'contact') . '?subject=' . urlencode($service['title'])) ?>" class="btn btn-primary w-100 rounded-pill mb-3"><?= e($page['cta_button_text'] ?? 'Get in Touch') ?></a>
+                    <?php if (!empty($related)): ?>
                     <hr>
-                    <h6>Related Services</h6>
+                    <h6><?= e($extra['related_heading'] ?? 'Related Services') ?></h6>
                     <ul class="related-links list-unstyled">
-                        <li><a href="<?= url('services/installation-services') ?>">Installation Services</a></li>
-                        <li><a href="<?= url('services/commissioning-acceptance-testing') ?>">Commissioning</a></li>
-                        <li><a href="<?= url('services/radiation-safety-compliance') ?>">Radiation Safety</a></li>
+                        <?php foreach ($related as $rel): ?>
+                        <li><a href="<?= url('services/' . $rel['slug']) ?>"><?= e($rel['title']) ?></a></li>
+                        <?php endforeach; ?>
                     </ul>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

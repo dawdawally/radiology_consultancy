@@ -1,13 +1,18 @@
+<?php
+$page = getPageContent('contact');
+$extra = $page['extra'] ?? [];
+$heroSubtitle = trim($page['hero_subtitle'] ?? '') !== '' ? $page['hero_subtitle'] : getSetting('response_time');
+?>
 <section class="page-hero">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?= url() ?>">Home</a></li>
-                <li class="breadcrumb-item active">Contact</li>
+                <li class="breadcrumb-item active"><?= e($page['breadcrumb_label'] ?? 'Contact') ?></li>
             </ol>
         </nav>
-        <h1 data-aos="fade-up">Contact Us</h1>
-        <p class="lead" data-aos="fade-up" data-aos-delay="100"><?= e(getSetting('response_time')) ?></p>
+        <h1 data-aos="fade-up"><?= e($page['hero_title'] ?? 'Contact Us') ?></h1>
+        <p class="lead" data-aos="fade-up" data-aos-delay="100"><?= e($heroSubtitle) ?></p>
     </div>
 </section>
 
@@ -16,21 +21,23 @@
         <div class="row g-5">
             <div class="col-lg-5" data-aos="fade-right">
                 <div class="contact-info-card">
-                    <h3>Get in Touch</h3>
+                    <h3><?= e($extra['sidebar_title'] ?? 'Get in Touch') ?></h3>
                     <?= getSetting('contact_intro') ?>
                     <ul class="contact-details list-unstyled mt-4">
                         <li><i class="fa-solid fa-envelope"></i><div><strong>Email</strong><br><a href="mailto:<?= e(getSetting('email')) ?>"><?= e(getSetting('email')) ?></a></div></li>
                         <li><i class="fa-solid fa-phone"></i><div><strong>Phone</strong><br><?= e(getSetting('phone')) ?></div></li>
                         <li><i class="fa-solid fa-location-dot"></i><div><strong>Address</strong><br><?= e(getSetting('address')) ?></div></li>
                     </ul>
+                    <?php if (!empty($extra['faq_button_text'])): ?>
                     <div class="mt-4">
-                        <a href="<?= url('faq') ?>" class="btn btn-outline-primary rounded-pill">View Frequently Asked Questions</a>
+                        <a href="<?= url('faq') ?>" class="btn btn-outline-primary rounded-pill"><?= e($extra['faq_button_text']) ?></a>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="col-lg-7" data-aos="fade-left">
                 <div class="contact-form-card">
-                    <h3>Send Us a Message</h3>
+                    <h3><?= e($extra['form_title'] ?? 'Send Us a Message') ?></h3>
                     <form method="POST" action="<?= url('contact') ?>" class="needs-validation" novalidate>
                         <?= csrfField() ?>
                         <div class="row g-3">

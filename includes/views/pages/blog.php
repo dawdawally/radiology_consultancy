@@ -1,13 +1,17 @@
+<?php
+$page = getPageContent('blog');
+$extra = $page['extra'] ?? [];
+?>
 <section class="page-hero">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?= url() ?>">Home</a></li>
-                <li class="breadcrumb-item active">Resources</li>
+                <li class="breadcrumb-item active"><?= e($page['breadcrumb_label'] ?? 'Resources') ?></li>
             </ol>
         </nav>
-        <h1 data-aos="fade-up">Resources & Insights</h1>
-        <p class="lead" data-aos="fade-up" data-aos-delay="100">Technical guides, industry insights, and regulatory updates from our consultancy team.</p>
+        <h1 data-aos="fade-up"><?= e($page['hero_title'] ?? 'Resources & Insights') ?></h1>
+        <p class="lead" data-aos="fade-up" data-aos-delay="100"><?= e($page['hero_subtitle'] ?? '') ?></p>
     </div>
 </section>
 
@@ -15,7 +19,7 @@
     <div class="container">
         <?php if (empty($posts)): ?>
         <div class="text-center py-5">
-            <p class="text-muted">New articles will be published soon. Check back for expert insights on radiation equipment.</p>
+            <p class="text-muted"><?= e($extra['empty_message'] ?? 'New articles will be published soon. Check back for expert insights on radiation equipment.') ?></p>
         </div>
         <?php else: ?>
         <div class="row g-4">

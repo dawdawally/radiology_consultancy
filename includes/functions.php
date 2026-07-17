@@ -73,6 +73,16 @@ function asset(string $path): string
 
 function logoUrl(): string
 {
+    $custom = getSetting('logo_path');
+    if ($custom !== '') {
+        if (str_starts_with($custom, 'http://') || str_starts_with($custom, 'https://')) {
+            return $custom;
+        }
+        if (str_starts_with($custom, 'uploads/')) {
+            return url($custom);
+        }
+        return uploadUrl($custom);
+    }
     return asset('images/rmc_logo.png');
 }
 
@@ -299,6 +309,37 @@ function getSeo(string $pageKey): array
         $cache[$pageKey] = $stmt->fetch() ?: [];
     }
     return $cache[$pageKey];
+}
+
+/**
+ * Editable page hero / CTA content from page_content table.
+ */
+function getPageContent(string $pageKey): array
+{
+    static $cache = [];
+    if (!isset($cache[$pageKey])) {
+        try {
+            $db = Database::getInstance();
+            $stmt = $db->prepare('SELECT * FROM page_content WHERE page_key = ? LIMIT 1');
+            $stmt->execute([$pageKey]);
+            $row = $stmt->fetch() ?: [];
+            if (!empty($row['extra_data'])) {
+                $extra = parseJsonField($row['extra_data']);
+                $row['extra'] = $extra;
+            } else {
+                $row['extra'] = [];
+            }
+            $cache[$pageKey] = $row;
+        } catch (Throwable) {
+            $cache[$pageKey] = ['extra' => []];
+        }
+    }
+    return $cache[$pageKey];
+}
+
+function sectionExtra(?array $section): array
+{
+    return parseJsonField($section['extra_data'] ?? null);
 }
 
 function parseJsonField(?string $json): array

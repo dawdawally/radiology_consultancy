@@ -1,3 +1,4 @@
+<?php $extra = parseJsonField($editSection['extra_data'] ?? null); ?>
 <div class="row g-4">
     <div class="col-lg-3">
         <div class="admin-card p-0">
@@ -18,8 +19,12 @@
             <form method="POST" action="<?= adminUrl('page=about&action=save') ?>">
                 <?= csrfField() ?>
                 <input type="hidden" name="section_key" value="<?= e($editSection['section_key']) ?>">
+                <div class="mb-3"><label class="form-label">Section Label</label><input type="text" name="section_label" class="form-control" value="<?= e($extra['section_label'] ?? '') ?>"></div>
                 <div class="mb-3"><label class="form-label">Title</label><input type="text" name="title" class="form-control" value="<?= e($editSection['title']) ?>"></div>
                 <div class="mb-3"><label class="form-label">Content (HTML allowed)</label><textarea name="content" class="form-control" rows="12"><?= e($editSection['content']) ?></textarea></div>
+                <?php if (($editSection['section_key'] ?? '') === 'intro'): ?>
+                <div class="mb-3"><label class="form-label">Image Placeholder Caption</label><input type="text" name="image_caption" class="form-control" value="<?= e($extra['image_caption'] ?? '') ?>"></div>
+                <?php endif; ?>
                 <button type="submit" class="btn btn-primary">Save Section</button>
             </form>
         </div>

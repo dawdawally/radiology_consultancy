@@ -86,6 +86,7 @@ class PublicController
                 'pageTitle' => $service['meta_title'] ?? $service['title'],
                 'metaDescription' => $service['meta_description'] ?? $service['short_description'],
                 'service' => $service,
+                'relatedServices' => $this->services->getPublished(),
             ]);
             return;
         }
@@ -132,8 +133,8 @@ class PublicController
     private function testimonialsPage(): void
     {
         render('testimonials', [
-            'pageTitle' => 'Case Studies & Testimonials',
-            'metaDescription' => 'Client success stories from radiation equipment projects worldwide.',
+            'pageTitle' => getSeo('testimonials')['meta_title'] ?? 'Case Studies & Testimonials',
+            'metaDescription' => getSeo('testimonials')['meta_description'] ?? 'Client success stories from radiation equipment projects worldwide.',
             'testimonials' => $this->testimonials->getPublished(),
         ]);
     }
@@ -225,10 +226,15 @@ class PublicController
     private function legalPage(string $type): void
     {
         $key = $type . '_content';
+        $titles = [
+            'privacy' => 'Privacy Policy',
+            'terms' => 'Terms of Use',
+        ];
+        $title = $titles[$type] ?? (ucfirst($type) . ' Policy');
         render('legal', [
-            'pageTitle' => ucfirst($type) . ' Policy',
+            'pageTitle' => getSeo($type)['meta_title'] ?? $title,
             'metaDescription' => getSeo($type)['meta_description'] ?? '',
-            'title' => ucfirst($type) . ' Policy',
+            'title' => $title,
             'content' => getSetting($key),
         ]);
     }

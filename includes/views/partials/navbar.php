@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light site-navbar sticky-top">
     <div class="container">
         <a class="navbar-brand" href="<?= url() ?>">
-            <img src="<?= logoUrl() ?>" alt="<?= e(getSetting('site_name', 'Radiation Medical Consultancy')) ?>" class="site-logo" width="160" height="48" decoding="async" fetchpriority="high">
+            <img src="<?= logoUrl() ?>" alt="<?= e(getSetting('site_name', 'Radiation Equipment Consultancy')) ?>" class="site-logo" width="160" height="48" decoding="async" fetchpriority="high">
         </a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
             <span class="navbar-toggler-icon"></span>

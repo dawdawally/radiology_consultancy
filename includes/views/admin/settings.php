@@ -10,6 +10,9 @@
             <div class="tab-pane fade show active" id="general">
                 <div class="mb-3"><label class="form-label">Site Name</label><input type="text" name="site_name" class="form-control" value="<?= e($settings['site_name'] ?? '') ?>"></div>
                 <div class="mb-3"><label class="form-label">Tagline</label><input type="text" name="tagline" class="form-control" value="<?= e($settings['tagline'] ?? '') ?>"></div>
+                <div class="mb-3"><label class="form-label">Logo Path</label><input type="text" name="logo_path" class="form-control" value="<?= e($settings['logo_path'] ?? '') ?>" placeholder="Leave blank for default, or uploads/filename.png from Media">
+                    <small class="text-muted">Upload via Media Library, then paste the filename here (e.g. <code>my-logo.png</code>).</small>
+                </div>
                 <div class="mb-3"><label class="form-label">Footer Text</label><textarea name="footer_text" class="form-control" rows="3"><?= e($settings['footer_text'] ?? '') ?></textarea></div>
                 <div class="mb-3"><label class="form-label">LinkedIn URL</label><input type="url" name="linkedin" class="form-control" value="<?= e($settings['linkedin'] ?? '') ?>"></div>
             </div>

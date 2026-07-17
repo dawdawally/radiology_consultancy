@@ -1,13 +1,14 @@
+<?php $page = getPageContent('faq'); ?>
 <section class="page-hero">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?= url() ?>">Home</a></li>
-                <li class="breadcrumb-item active">FAQ</li>
+                <li class="breadcrumb-item active"><?= e($page['breadcrumb_label'] ?? 'FAQ') ?></li>
             </ol>
         </nav>
-        <h1 data-aos="fade-up">Frequently Asked Questions</h1>
-        <p class="lead" data-aos="fade-up" data-aos-delay="100">Answers to common questions about our radiation equipment consultancy services, process, and how we work with healthcare facilities.</p>
+        <h1 data-aos="fade-up"><?= e($page['hero_title'] ?? 'Frequently Asked Questions') ?></h1>
+        <p class="lead" data-aos="fade-up" data-aos-delay="100"><?= e($page['hero_subtitle'] ?? '') ?></p>
     </div>
 </section>
 
@@ -37,11 +38,17 @@
                 </div>
                 <?php endif; ?>
 
+                <?php if (!empty($page['cta_title'])): ?>
                 <div class="text-center mt-5 p-4 bg-light rounded-4">
-                    <h4 class="mb-2">Still have a question?</h4>
-                    <p class="text-muted mb-3">Our team is ready to discuss your radiation equipment project.</p>
-                    <a href="<?= url('contact') ?>" class="btn btn-primary rounded-pill px-4">Contact Us</a>
+                    <h4 class="mb-2"><?= e($page['cta_title']) ?></h4>
+                    <?php if (!empty($page['cta_subtitle'])): ?>
+                    <p class="text-muted mb-3"><?= e($page['cta_subtitle']) ?></p>
+                    <?php endif; ?>
+                    <?php if (!empty($page['cta_button_text'])): ?>
+                    <a href="<?= linkUrl($page['cta_button_url'] ?? 'contact') ?>" class="btn btn-primary rounded-pill px-4"><?= e($page['cta_button_text']) ?></a>
+                    <?php endif; ?>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

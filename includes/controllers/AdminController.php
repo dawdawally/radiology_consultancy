@@ -128,6 +128,13 @@ class AdminController
     {
         $model = new PageContentModel();
 
+        try {
+            $model->ensureReady();
+        } catch (Throwable $e) {
+            setFlash('danger', 'Could not prepare page content tables: ' . $e->getMessage());
+            redirect(adminUrl('page=dashboard'));
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'save') {
             $this->requireCsrf();
             $key = $_POST['page_key'] ?? '';

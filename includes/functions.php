@@ -317,8 +317,14 @@ function getSeo(string $pageKey): array
 function getPageContent(string $pageKey): array
 {
     static $cache = [];
+    static $ensured = false;
+
     if (!isset($cache[$pageKey])) {
         try {
+            if (!$ensured) {
+                (new PageContentModel())->ensureReady();
+                $ensured = true;
+            }
             $db = Database::getInstance();
             $stmt = $db->prepare('SELECT * FROM page_content WHERE page_key = ? LIMIT 1');
             $stmt->execute([$pageKey]);

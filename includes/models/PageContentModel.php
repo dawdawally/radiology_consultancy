@@ -6,6 +6,35 @@ class PageContentModel extends BaseModel
 {
     protected string $table = 'page_content';
 
+    /**
+     * Create page_content table and seed defaults if missing (Hostinger-safe, no CLI required).
+     */
+    public function ensureReady(): void
+    {
+        $this->db->exec("
+            CREATE TABLE IF NOT EXISTS page_content (
+                id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                page_key VARCHAR(50) NOT NULL UNIQUE,
+                hero_title VARCHAR(255) DEFAULT NULL,
+                hero_subtitle VARCHAR(500) DEFAULT NULL,
+                breadcrumb_label VARCHAR(100) DEFAULT NULL,
+                cta_title VARCHAR(255) DEFAULT NULL,
+                cta_subtitle VARCHAR(500) DEFAULT NULL,
+                cta_button_text VARCHAR(100) DEFAULT NULL,
+                cta_button_url VARCHAR(255) DEFAULT NULL,
+                extra_data JSON DEFAULT NULL,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+        ");
+
+        $count = (int) $this->db->query('SELECT COUNT(*) FROM page_content')->fetchColumn();
+        if ($count === 0) {
+            require_once ROOT_PATH . '/database/SeedData.php';
+            SeedData::seedPageContent($this->db);
+            SeedData::seedHomepageExtras($this->db);
+        }
+    }
+
     public function getByKey(string $key): ?array
     {
         $stmt = $this->db->prepare('SELECT * FROM page_content WHERE page_key = ?');

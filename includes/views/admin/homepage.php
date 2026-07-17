@@ -58,10 +58,28 @@ while (count($stats) < 3) {
                 </div>
                 <hr>
                 <h6 class="mb-3">Hero Stats Card</h6>
-                <?php for ($i = 0; $i < 3; $i++): ?>
-                <div class="row mb-2">
-                    <div class="col-md-4"><input type="text" name="stat_value[]" class="form-control" placeholder="Value (e.g. 30+)" value="<?= e($stats[$i]['value'] ?? '') ?>"></div>
-                    <div class="col-md-8"><input type="text" name="stat_label[]" class="form-control" placeholder="Label (e.g. Years Combined Experience)" value="<?= e($stats[$i]['label'] ?? '') ?>"></div>
+                <p class="small text-muted mb-3">The “Specialist Service Areas” value is calculated automatically from published services and cannot be edited here.</p>
+                <?php
+                $liveServicesCount = (new ServiceModel())->countPublished();
+                for ($i = 0; $i < 3; $i++):
+                    $isServicesStat = (($stats[$i]['source'] ?? '') === 'services_count')
+                        || stripos($stats[$i]['label'] ?? '', 'Specialist Service') !== false;
+                ?>
+                <div class="row mb-2 align-items-center">
+                    <div class="col-md-4">
+                        <?php if ($isServicesStat): ?>
+                        <input type="text" class="form-control" value="<?= (int) $liveServicesCount ?>" readonly>
+                        <input type="hidden" name="stat_value[]" value="auto">
+                        <input type="hidden" name="stat_source[]" value="services_count">
+                        <?php else: ?>
+                        <input type="text" name="stat_value[]" class="form-control" placeholder="Value (e.g. 30+)" value="<?= e($stats[$i]['value'] ?? '') ?>">
+                        <input type="hidden" name="stat_source[]" value="">
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" name="stat_label[]" class="form-control" placeholder="Label (e.g. Years Combined Experience)" value="<?= e($stats[$i]['label'] ?? ($isServicesStat ? 'Specialist Service Areas' : '')) ?>" <?= $isServicesStat ? '' : '' ?>>
+                        <?php if ($isServicesStat): ?><small class="text-muted">Auto-updated from Services</small><?php endif; ?>
+                    </div>
                 </div>
                 <?php endfor; ?>
                 <?php endif; ?>

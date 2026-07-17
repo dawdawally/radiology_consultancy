@@ -153,7 +153,7 @@ HTML;
                     'button2_url' => '/services',
                     'stats' => [
                         ['value' => '30+', 'label' => 'Years Combined Experience'],
-                        ['value' => '11', 'label' => 'Specialist Service Areas'],
+                        ['value' => '11', 'label' => 'Specialist Service Areas', 'source' => 'services_count'],
                         ['value' => 'Global', 'label' => 'Project Delivery'],
                     ],
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
@@ -1272,7 +1272,7 @@ HTML;
                 'button2_url' => '/services',
                 'stats' => [
                     ['value' => '30+', 'label' => 'Years Combined Experience'],
-                    ['value' => '11', 'label' => 'Specialist Service Areas'],
+                    ['value' => '11', 'label' => 'Specialist Service Areas', 'source' => 'services_count'],
                     ['value' => 'Global', 'label' => 'Project Delivery'],
                 ],
             ],

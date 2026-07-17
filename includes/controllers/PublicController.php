@@ -54,11 +54,14 @@ class PublicController
 
     private function home(): void
     {
+        $publishedServices = $this->services->getPublished();
+
         render('home', [
             'pageTitle' => getSeo('home')['meta_title'] ?? getSetting('site_name'),
             'metaDescription' => getSeo('home')['meta_description'] ?? getSetting('tagline'),
             'sections' => $this->homepage->getActiveSections(),
-            'services' => array_slice($this->services->getPublished(), 0, 6),
+            'services' => array_slice($publishedServices, 0, 6),
+            'servicesCount' => count($publishedServices),
             'equipment' => $this->equipment->getPublishedGrouped(),
             'testimonials' => array_slice($this->testimonials->getPublished(), 0, 3),
             'posts' => $this->blog->getPublished(3),

@@ -22,6 +22,21 @@ $stats = $heroExtra['stats'] ?? [];
 $features = $aboutExtra['features'] ?? [];
 $whyItems = $whyExtra['items'] ?? [];
 $processItems = $processExtra['items'] ?? [];
+$servicesCount = (int) ($servicesCount ?? 0);
+
+// Specialist service count always comes from published services (not admin-entered)
+foreach ($stats as &$stat) {
+    $source = $stat['source'] ?? '';
+    $label = $stat['label'] ?? '';
+    if ($source === 'services_count' || stripos($label, 'Specialist Service') !== false) {
+        $stat['value'] = (string) $servicesCount;
+        $stat['source'] = 'services_count';
+        if ($label === '') {
+            $stat['label'] = 'Specialist Service Areas';
+        }
+    }
+}
+unset($stat);
 ?>
 
 <section class="hero-section">

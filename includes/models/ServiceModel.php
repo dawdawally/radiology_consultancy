@@ -12,6 +12,11 @@ class ServiceModel extends BaseModel
         return $stmt->fetchAll();
     }
 
+    public function countPublished(): int
+    {
+        return (int) $this->db->query('SELECT COUNT(*) FROM services WHERE is_published = 1')->fetchColumn();
+    }
+
     public function findBySlug(string $slug): ?array
     {
         $stmt = $this->db->prepare('SELECT * FROM services WHERE slug = ? AND is_published = 1');

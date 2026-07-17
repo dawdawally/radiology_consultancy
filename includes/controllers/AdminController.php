@@ -59,9 +59,19 @@ class AdminController
                 $stats = [];
                 $values = $_POST['stat_value'] ?? [];
                 $labels = $_POST['stat_label'] ?? [];
+                $sources = $_POST['stat_source'] ?? [];
                 foreach ($values as $i => $value) {
                     $value = trim((string) $value);
                     $label = trim((string) ($labels[$i] ?? ''));
+                    $source = trim((string) ($sources[$i] ?? ''));
+                    if ($source === 'services_count' || stripos($label, 'Specialist Service') !== false) {
+                        $stats[] = [
+                            'value' => 'auto',
+                            'label' => $label !== '' ? $label : 'Specialist Service Areas',
+                            'source' => 'services_count',
+                        ];
+                        continue;
+                    }
                     if ($value !== '' || $label !== '') {
                         $stats[] = ['value' => $value, 'label' => $label];
                     }
